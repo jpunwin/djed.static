@@ -22,8 +22,8 @@ tests_require = install_requires + [
 
 
 setup(name='djed.static',
-      version='0.0',
-      description='Integration of BowerStatic into Pyramid',
+      version='0.1',
+      description='BowerStatic integration for Pyramid to serve static resources managed by Bower',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Framework :: Pyramid",
