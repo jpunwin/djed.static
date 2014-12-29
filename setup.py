@@ -3,6 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
+
 with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
 with open(os.path.join(here, 'CHANGES.txt')) as f:
@@ -22,7 +23,7 @@ tests_require = install_requires + [
 
 setup(name='djed.static',
       version='0.0',
-      description='djed.static',
+      description='Integration of BowerStatic into Pyramid',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Framework :: Pyramid",
@@ -39,7 +40,7 @@ setup(name='djed.static',
       author_email='djedproject@googlegroups.com',
       url='https://github.com/djedproject/djed.static',
       license='ISC License (ISCL)',
-      keywords='web pyramid pylons',
+      keywords='web pyramid pylons bower static bowerstatic',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
