@@ -1,13 +1,17 @@
+===========
+djed.static
+===========
+
 .. image:: https://travis-ci.org/djedproject/djed.static.png?branch=master
    :target: https://travis-ci.org/djedproject/djed.static
 
 .. _Bower: http://bower.io
 
-.. _Bower configuration: http://bower.io/docs/creating-packages/
-
 .. _BowerStatic: https://github.com/faassen/bowerstatic
 
 .. _Pyramid: https://github.com/pylons/pyramid
+
+.. _ISC license: http://choosealicense.com/licenses/isc/
 
 
 *djed.static* provides Integration of BowerStatic_ into Pyramid_, so that you
@@ -30,8 +34,7 @@ If required, you can add local Bower packages:
 
     config.add_bower_component('myapp:static', version='0.1')
 
-The defined folder has to contain a `bower.json` file
-(see `Bower configuration`_).
+The defined folder has to contain a `bower.json` file.
 
 
 To include a Bower package and its dependencies on your page:
@@ -40,4 +43,10 @@ To include a Bower package and its dependencies on your page:
 
     request.include('bootstrap')
 
-This works both in templates and views. 
+This works both in templates and views.
+
+
+License
+=======
+
+*djed.static* is offered under the `ISC license`_.
