@@ -16,19 +16,19 @@ through the Bower_ package manager.
 
 
 Include *djed.static* in your Pyramid application and initialize it with the
-path to your folder containing the Bower components:
+path to your folder that contains the Bower components:
 
 .. code-block:: python
 
     config.include('djed.static')
-    config.init_static_components('myapp:static/bower_components')
+    config.init_bower_components('myapp:static/bower_components')
 
 
 If required, you can add local Bower packages:
 
 .. code-block:: python
 
-    config.add_static_component('myapp:static', version='0.1')
+    config.add_bower_component('myapp:static', version='0.1')
 
 The defined folder has to contain a `bower.json` file
 (see `Bower configuration`_).

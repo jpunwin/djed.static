@@ -27,7 +27,7 @@ class bowerstatic_tween_factory(object):
         return publisher_handler(request)
 
 
-def init_static_components(config, path, name='components'):
+def init_bower_components(config, path, name='components'):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
     components = config.registry.bower.components(name, directory)
@@ -36,7 +36,7 @@ def init_static_components(config, path, name='components'):
     log.info("Initialize static components: {0}".format(path))
 
 
-def add_static_component(config, path, version=None):
+def add_bower_component(config, path, version=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
     local = config.registry.bower._component_collections.get('local')
@@ -59,6 +59,6 @@ def includeme(config):
     config.registry.bower = Bower()
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
-    config.add_directive('init_static_components', init_static_components)
-    config.add_directive('add_static_component', add_static_component)
+    config.add_directive('init_bower_components', init_bower_components)
+    config.add_directive('add_bower_component', add_bower_component)
     config.add_request_method(include, 'include')
