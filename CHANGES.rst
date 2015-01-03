@@ -1,7 +1,7 @@
 Change History
 ==============
 
-0.1 (2014-12-30)
+0.1 (unreleased)
 ----------------
 
--  Initial version
+-  Initial release
