@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
-with open(os.path.join(here, 'CHANGES.txt')) as f:
+with open(os.path.join(here, 'CHANGES.rst')) as f:
     CHANGES = f.read()
 
 install_requires = [
@@ -23,8 +23,9 @@ tests_require = install_requires + [
 
 setup(name='djed.static',
       version='0.1',
-      description='BowerStatic integration for Pyramid to serve Bower-managed static resources',
-      long_description=README + '\n\n' + CHANGES,
+      description='Integration of BowerStatic into Pyramid for managing '
+                  'static resources with Bower',
+      long_description='\n\n'.join([README, CHANGES]),
       classifiers=[
         "Framework :: Pyramid",
         "Intended Audience :: Developers",
