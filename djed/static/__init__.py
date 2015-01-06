@@ -27,10 +27,10 @@ class bowerstatic_tween_factory(object):
         return publisher_handler(request)
 
 
-def init_bower_components(config, path, name='components'):
+def init_bower_components(config, path):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
-    components = config.registry.bower.components(name, directory)
+    components = config.registry.bower.components('components', directory)
     local = config.registry.bower.local_components('local', components)
 
     log.info("Initialize static components: {0}".format(path))

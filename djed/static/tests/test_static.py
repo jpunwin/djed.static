@@ -24,23 +24,12 @@ class TestStaticConfig(BaseTestCase):
 
 class TestStatic(BaseTestCase):
 
-    def test_init_default(self):
+    def test_init(self):
 
         self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
         self.assertIn('components',
-                      self.config.registry.bower._component_collections)
-        self.assertIn('local',
-                      self.config.registry.bower._component_collections)
-
-    def test_init_custom_name(self):
-
-        self.config.init_bower_components(
-            'djed.static:tests/bower_components',
-            name='testcomponents')
-
-        self.assertIn('testcomponents',
                       self.config.registry.bower._component_collections)
         self.assertIn('local',
                       self.config.registry.bower._component_collections)
