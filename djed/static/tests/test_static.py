@@ -3,30 +3,11 @@ from pyramid.response import Response
 from base import BaseTestCase
 
 
-class TestStaticConfig(BaseTestCase):
-
-    _includes = ()
-
-    def test_include(self):
-        request = self.make_request()
-
-        self.assertFalse(hasattr(self.config, 'init_bower_components'))
-        self.assertFalse(hasattr(self.config, 'add_bower_component'))
-        self.assertFalse(hasattr(request, 'include'))
-
-        self.config.include('djed.static')
-        request = self.make_request()
-
-        self.assertTrue(hasattr(self.config, 'init_bower_components'))
-        self.assertTrue(hasattr(self.config, 'add_bower_component'))
-        self.assertTrue(hasattr(request, 'include'))
-
-
 class TestStatic(BaseTestCase):
 
     def test_init(self):
 
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
 
         bower = self.request.get_bower()
@@ -36,7 +17,7 @@ class TestStatic(BaseTestCase):
 
     def test_add_local_component(self):
 
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component')
@@ -63,7 +44,7 @@ class TestStatic(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
 
         app = self.make_app()
@@ -90,7 +71,7 @@ class TestStatic(BaseTestCase):
         self.config.add_view(
             view, route_name='view',
             renderer='djed.static:tests/templates/index.pt')
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
 
         app = self.make_app()
@@ -109,7 +90,7 @@ class TestStatic(BaseTestCase):
     def test_request_include_error(self):
         from djed.static import Error
 
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
 
         self.assertRaises(Error, self.request.include, 'anotherComponent')
@@ -122,7 +103,7 @@ class TestStatic(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component', '1.0.0')
@@ -153,7 +134,7 @@ class TestStatic(BaseTestCase):
         self.config.add_view(
             view, route_name='view',
             renderer='djed.static:tests/templates/index_local.pt')
-        self.config.init_bower_components(
+        self.config.add_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component', '1.0.0')
