@@ -23,10 +23,10 @@ def bower_factory_from_settings(settings):
 
     bower.publisher_signature = settings.get(
         prefix + 'publisher_signature', 'bowerstatic')
-    bower.default_components = settings.get(
-        prefix + 'default_components', 'components')
-    bower.default_local_components = settings.get(
-        prefix + 'default_local_components', 'local')
+    bower.components_name = settings.get(
+        prefix + 'components_name', 'components')
+    bower.local_components_name = settings.get(
+        prefix + 'local_components_name', 'local')
 
     return bower
 
@@ -50,13 +50,13 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def init_bower_components(config, path):
+def add_bower_components(config, path):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    components = bower.components(bower.default_components, directory)
-    local = bower.local_components(bower.default_local_components, components)
+    components = bower.components(bower.components_name, directory)
+    local = bower.local_components(bower.local_components_name, components)
 
     log.info("Initialize bower components: {0}".format(path))
 
@@ -66,7 +66,7 @@ def add_bower_component(config, path, version=None):
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    local = bower._component_collections.get(bower.default_local_components)
+    local = bower._component_collections.get(bower.local_components_name)
     if not local:
         raise Error("Bower components not initialized.")
     local.component(directory, version)
@@ -76,7 +76,7 @@ def add_bower_component(config, path, version=None):
 
 def include(request, path_or_resource):
     bower = get_bower(request.registry)
-    local = bower._component_collections.get(bower.default_local_components)
+    local = bower._component_collections.get(bower.local_components_name)
     if not local:
         raise Error("Bower components not initialized.")
     include = local.includer(request.environ)
@@ -89,7 +89,7 @@ def includeme(config):
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
 
-    config.add_directive('init_bower_components', init_bower_components)
+    config.add_directive('add_bower_components', add_bower_components)
     config.add_directive('add_bower_component', add_bower_component)
 
     config.add_request_method(include, 'include')
