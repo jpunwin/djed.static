@@ -4,7 +4,7 @@ from base import BaseTestCase
 
 class TestStatic(BaseTestCase):
 
-    def test_init(self):
+    def test_add_components(self):
 
         self.config.add_bower_components(
             'djed.static:tests/bower_components')
@@ -13,6 +13,16 @@ class TestStatic(BaseTestCase):
 
         self.assertIn('components', bower._component_collections)
         self.assertIn('local', bower._component_collections)
+
+
+    def test_add_components_error(self):
+        from djed.static import Error
+
+        self.config.add_bower_components(
+            'djed.static:tests/bower_components')
+
+        self.assertRaises(Error, self.config.add_bower_components,
+                          'djed.static:tests/bower_components')
 
     def test_add_local_component(self):
 
@@ -27,13 +37,11 @@ class TestStatic(BaseTestCase):
 
         self.assertIn('myapp', local._components)
 
-    def test_init_errors(self):
+    def test_add_local_component_error(self):
         from djed.static import Error
 
         self.assertRaises(Error, self.config.add_bower_component,
                           'djed.static:tests/local_component')
-
-        self.assertRaises(Error, self.request.include, 'anycomponent')
 
     def test_request_include(self):
 
@@ -60,6 +68,11 @@ class TestStatic(BaseTestCase):
                            'anycomponent/1.0.0/anycomponent.js')
 
         self.assertEqual(response.body, b'/* anycomponent.js */\n')
+
+    def test_request_include_error(self):
+        from djed.static import Error
+
+        self.assertRaises(Error, self.request.include, 'anycomponent')
 
     def test_request_include_in_template(self):
 
@@ -90,9 +103,6 @@ class TestStatic(BaseTestCase):
 
     def test_request_include_error(self):
         from djed.static import Error
-
-        self.config.add_bower_components(
-            'djed.static:tests/bower_components')
 
         self.assertRaises(Error, self.request.include, 'anotherComponent')
 
