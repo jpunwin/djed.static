@@ -6,7 +6,7 @@ class TestStatic(BaseTestCase):
 
     def test_add_components(self):
 
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
         bower = self.request.get_bower()
@@ -18,15 +18,15 @@ class TestStatic(BaseTestCase):
     def test_add_components_error(self):
         from djed.static import Error
 
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
-        self.assertRaises(Error, self.config.add_bower_components,
+        self.assertRaises(Error, self.config.init_bower_components,
                           'djed.static:tests/bower_components')
 
     def test_add_local_component(self):
 
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component')
@@ -51,7 +51,7 @@ class TestStatic(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
         app = self.make_app()
@@ -84,7 +84,7 @@ class TestStatic(BaseTestCase):
         self.config.add_view(
             view, route_name='view',
             renderer='djed.static:tests/templates/index.pt')
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
         app = self.make_app()
@@ -114,7 +114,7 @@ class TestStatic(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component', '1.0.0')
@@ -144,7 +144,7 @@ class TestStatic(BaseTestCase):
         self.config.add_view(
             view, route_name='view',
             renderer='djed.static:tests/templates/index_local.pt')
-        self.config.add_bower_components(
+        self.config.init_bower_components(
             'djed.static:tests/bower_components')
         self.config.add_bower_component(
             'djed.static:tests/local_component', '1.0.0')
