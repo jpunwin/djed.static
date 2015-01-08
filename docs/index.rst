@@ -21,7 +21,7 @@ Contents
 
    getting-started
    local-components
-   settings
+   configuration
    support
    changes
 
