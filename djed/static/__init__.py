@@ -11,20 +11,16 @@ from pyramid.path import AssetResolver
 log = logging.getLogger('djed.static')
 
 
-class bowerstatic_tween_factory(object):
-    def __init__(self, handler, registry):
-        self.handler = handler
-        self.registry = registry
+def bowerstatic_tween_factory(handler, registry):
+    bower = registry.bower
 
-    def __call__(self, request):
-        injector_handler = InjectorTween(
-            self.registry.bower,
-            self.handler)
-        publisher_handler = PublisherTween(
-            self.registry.bower,
-            injector_handler)
+    def bowerstatic_tween(request):
+        injector_handler = InjectorTween(bower, handler)
+        publisher_handler = PublisherTween(bower, injector_handler)
 
         return publisher_handler(request)
+
+    return bowerstatic_tween
 
 
 def init_bower_components(config, path):
