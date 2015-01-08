@@ -19,10 +19,16 @@ Or for local components::
 The setting options allow you to change the first two parts of the URLs:
 
 ``djed.static.publisher_signature``
-    The first part of the components and local URLs (default: bowerstatic).
+    The first part of the components and local URLs.
+
+    default: ``bowerstatic``
 
 ``djed.static.components_name``
-    The second part of the components URLs (default: components).
+    The second part of the components URLs.
+
+    default: ``components``
 
 ``djed.static.local_components_name``
-    The second part for local URLs (default: local).
+    The second part of the local URLs.
+
+    default: ``local``

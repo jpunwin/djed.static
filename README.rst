@@ -31,10 +31,12 @@ Initialize a ``bower_components`` directory::
 
     config.init_bower_components('myapp:static/bower_components')
 
-Include required Bower packages on your page. You can do this in templates or
+Include desired Bower packages on your page. You can do this in templates or
 somewhere else in your code::
 
     request.include('bootstrap')
+
+All required dependencies are also included on the page.
 
 Documentation and Support
 =========================
