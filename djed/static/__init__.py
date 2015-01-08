@@ -51,7 +51,7 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def add_bower_components(config, path):
+def init_bower_components(config, path):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
@@ -90,7 +90,7 @@ def includeme(config):
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
 
-    config.add_directive('add_bower_components', add_bower_components)
+    config.add_directive('init_bower_components', init_bower_components)
     config.add_directive('add_bower_component', add_bower_component)
 
     config.add_request_method(include, 'include')

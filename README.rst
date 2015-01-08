@@ -27,14 +27,23 @@ Include it in your Pyramid application::
 
     config.include('djed.static')
 
-Add Bower components directory::
+Initialize a ``bower_components`` directory::
 
-    config.add_bower_components('myapp:static/bower_components')
+    config.init_bower_components('myapp:static/bower_components')
 
 Include required Bower packages on your page. You can do this in templates or
 somewhere else in your code::
 
     request.include('bootstrap')
+
+Documentation and Support
+=========================
+
+Documentation can be found at `http://djedstatic.readthedocs.org/  <https://djedstatic.readthedocs.org/>`_
+
+If you've got questions, contact the `djedproject mailling list <https://groups.google.com/group/djedproject>`_.
+
+To report bugs, use the `issue tracker <https://github.com/djedproject/djed.static/issues>`_.
 
 License
 =======
