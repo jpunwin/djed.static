@@ -16,6 +16,20 @@ class IBower(Interface):
     """ Bower interface
     """
 
+def bower_factory_from_settings(settings):
+    prefix = settings.get('djed.static.prefix', 'djed.static.')
+
+    bower = Bower()
+
+    bower.publisher_signature = settings.get(
+        prefix + 'publisher_signature', 'bowerstatic')
+    bower.default_components = settings.get(
+        prefix + 'default_components', 'components')
+    bower.default_local_components = settings.get(
+        prefix + 'default_local_components', 'local')
+
+    return bower
+
 
 def get_bower(request):
     registry = getattr(request, 'registry', None)
@@ -41,10 +55,10 @@ def init_bower_components(config, path):
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    components = bower.components('components', directory)
-    local = bower.local_components('local', components)
+    components = bower.components(bower.default_components, directory)
+    local = bower.local_components(bower.default_local_components, components)
 
-    log.info("Initialize static components: {0}".format(path))
+    log.info("Initialize bower components: {0}".format(path))
 
 
 def add_bower_component(config, path, version=None):
@@ -52,29 +66,31 @@ def add_bower_component(config, path, version=None):
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    local = bower._component_collections.get('local')
+    local = bower._component_collections.get(bower.default_local_components)
     if not local:
-        raise Error("Static components not initialized.")
+        raise Error("Bower components not initialized.")
     local.component(directory, version)
 
-    log.info("Add local static component: %s, version: %s" % (path, version))
+    log.info("Add local bower component: %s, version: %s" % (path, version))
 
 
 def include(request, path_or_resource):
     bower = get_bower(request.registry)
-    local = bower._component_collections.get('local')
+    local = bower._component_collections.get(bower.default_local_components)
     if not local:
-        raise Error("Static components not initialized.")
+        raise Error("Bower components not initialized.")
     include = local.includer(request.environ)
     include(path_or_resource)
 
 
 def includeme(config):
-    bower = Bower()
+    bower = bower_factory_from_settings(config.registry.settings)
     config.registry.registerUtility(bower, IBower)
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
+
     config.add_directive('init_bower_components', init_bower_components)
     config.add_directive('add_bower_component', add_bower_component)
+
     config.add_request_method(include, 'include')
     config.add_request_method(get_bower, 'get_bower')
