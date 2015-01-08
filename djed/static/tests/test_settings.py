@@ -29,7 +29,6 @@ class TestSettingsCustom(BaseTestCase):
         self.assertEqual(bower.components_name, 'lib')
         self.assertEqual(bower.local_components_name, 'app')
 
-
     def test_include_path(self):
 
         def view(request):

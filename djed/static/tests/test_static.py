@@ -1,4 +1,3 @@
-from webtest import TestApp
 from pyramid.response import Response
 from base import BaseTestCase
 
@@ -53,7 +52,8 @@ class TestStatic(BaseTestCase):
         self.assertEqual(response.body, (
             b'<html><head>'
             b'<script type="text/javascript" '
-            b'src="/bowerstatic/components/anycomponent/1.0.0/anycomponent.js">'
+            b'src="/bowerstatic/components/'
+            b'anycomponent/1.0.0/anycomponent.js">'
             b'</script></head><body></body></html>'))
 
         response = app.get('/bowerstatic/components/'
@@ -79,7 +79,8 @@ class TestStatic(BaseTestCase):
 
         self.assertIn(
             b'<script type="text/javascript" '
-            b'src="/bowerstatic/components/anycomponent/1.0.0/anycomponent.js">'
+            b'src="/bowerstatic/components/'
+            b'anycomponent/1.0.0/anycomponent.js">'
             b'</script>', response.body)
 
         response = app.get('/bowerstatic/components/'
@@ -119,7 +120,6 @@ class TestStatic(BaseTestCase):
             b'src="/bowerstatic/local/myapp/1.0.0/myapp.js"></script>'
             b'</head><body></body></html>'))
 
-
         response = app.get('/bowerstatic/local/myapp/1.0.0/myapp.js')
 
         self.assertEqual(response.body, b'/* myapp.js */\n')
@@ -148,7 +148,6 @@ class TestStatic(BaseTestCase):
             b'</script>\n<script type="text/javascript" '
             b'src="/bowerstatic/local/myapp/1.0.0/myapp.js"></script>'),
             response.body)
-
 
         response = app.get('/bowerstatic/components/'
                            'anycomponent/1.0.0/anycomponent.js')
