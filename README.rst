@@ -27,13 +27,9 @@ Include it in your Pyramid application::
 
     config.include('djed.static')
 
-Initialize it with a directory that contains the Bower packages::
+Add Bower components directory::
 
-    config.init_bower_components('myapp:static/bower_components')
-
-If desired, add local Bower packages::
-
-    config.add_bower_component('myapp:static/mycomponent')
+    config.add_bower_components('myapp:static/bower_components')
 
 Include required Bower packages on your page. You can do this in templates or
 somewhere else in your code::
