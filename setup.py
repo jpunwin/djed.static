@@ -12,6 +12,7 @@ with open(os.path.join(here, 'CHANGES.rst')) as f:
 install_requires = [
     'bowerstatic',
     'pyramid',
+    'zope.interface',
     ]
 
 tests_require = install_requires + [

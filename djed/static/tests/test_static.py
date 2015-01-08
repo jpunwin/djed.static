@@ -29,10 +29,10 @@ class TestStatic(BaseTestCase):
         self.config.init_bower_components(
             'djed.static:tests/bower_components')
 
-        self.assertIn('components',
-                      self.config.registry.bower._component_collections)
-        self.assertIn('local',
-                      self.config.registry.bower._component_collections)
+        bower = self.request.get_bower()
+
+        self.assertIn('components', bower._component_collections)
+        self.assertIn('local', bower._component_collections)
 
     def test_add_local_component(self):
 
@@ -41,7 +41,9 @@ class TestStatic(BaseTestCase):
         self.config.add_bower_component(
             'djed.static:tests/local_component')
 
-        local = self.config.registry.bower._component_collections['local']
+        bower = self.request.get_bower()
+
+        local = bower._component_collections['local']
 
         self.assertIn('myapp', local._components)
 
