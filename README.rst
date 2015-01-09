@@ -23,16 +23,22 @@ Install the package into your python environment::
 
     pip install djed.static
 
-Include it in your Pyramid application::
+Include it in your Pyramid application:
+
+.. code-block:: python
 
     config.include('djed.static')
 
-Initialize a ``bower_components`` directory::
+Initialize a ``bower_components`` directory:
+
+.. code-block:: python
 
     config.init_bower_components('myapp:static/bower_components')
 
 Include desired Bower packages on your page. You can do this in templates or
-somewhere else in your code::
+somewhere else in your code:
+
+.. code-block:: python
 
     request.include('bootstrap')
 
