@@ -1,12 +1,12 @@
 Change History
 ==============
 
-0.2 (unreleased)
+0.2 (2015-01-09)
 ----------------
 
 - Added documentation
 
-- Added ini-setting options
+- Added ``ini`` setting options
 
 
 0.1 (2015-01-06)
