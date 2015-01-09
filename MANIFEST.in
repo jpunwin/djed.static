@@ -1,7 +1,6 @@
 include *.txt *.rst
 
-recursive-include docs *
-recursive-include tests *
+graft djed
+graft docs
 
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
+global-exclude *.pyc
