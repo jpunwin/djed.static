@@ -50,7 +50,7 @@ included on your HTML page.
 Documentation and Support
 =========================
 
-Documentation can be found at `http://djedstatic.readthedocs.org/  <https://djedstatic.readthedocs.org/>`_
+Documentation can be found at `https://djedstatic.readthedocs.org/  <https://djedstatic.readthedocs.org/>`_
 
 If you've got questions, contact the `djedproject mailling list <https://groups.google.com/group/djedproject>`_.
 
