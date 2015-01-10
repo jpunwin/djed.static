@@ -51,15 +51,21 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def init_bower_components(config, path):
+def add_bower_components(config, path, name=None, local=False):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    components = bower.components(bower.components_name, directory)
-    bower.local_components(bower.local_components_name, components)
 
-    log.info("Initialize bower components: {0}".format(path))
+    if not name:
+        name = bower.components_name
+
+    components = bower.components(name, directory)
+
+    if local:
+        bower.local_components(bower.local_components_name, components)
+
+    log.info("Add bower components '{0}': {1}".format(name, path))
 
 
 def add_bower_component(config, path, version=None):
@@ -69,18 +75,30 @@ def add_bower_component(config, path, version=None):
     bower = get_bower(config.registry)
     local = bower._component_collections.get(bower.local_components_name)
     if not local:
-        raise Error("Bower components not initialized.")
+        raise Error("Bower local components not found.")
+
     local.component(directory, version)
 
-    log.info("Add local bower component: %s, version: %s" % (path, version))
+    log.info("Add bower component: {0}".format(path))
 
 
-def include(request, path_or_resource):
+def include(request, path_or_resource, components=None):
     bower = get_bower(request.registry)
-    local = bower._component_collections.get(bower.local_components_name)
-    if not local:
-        raise Error("Bower components not initialized.")
-    include = local.includer(request.environ)
+
+    collection = bower._component_collections.get(components)
+
+    if not collection:
+        collection = bower._component_collections.get(
+            bower.local_components_name)
+
+    if not collection:
+        collection = bower._component_collections.get(
+            bower.components_name)
+
+    if not collection:
+        raise Error("Bower components not found.")
+
+    include = collection.includer(request.environ)
     include(path_or_resource)
 
 
@@ -90,7 +108,7 @@ def includeme(config):
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
 
-    config.add_directive('init_bower_components', init_bower_components)
+    config.add_directive('add_bower_components', add_bower_components)
     config.add_directive('add_bower_component', add_bower_component)
 
     config.add_request_method(include, 'include')

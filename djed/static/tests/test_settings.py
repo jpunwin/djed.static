@@ -37,8 +37,8 @@ class TestSettingsCustom(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.init_bower_components(
-            'djed.static:tests/bower_components')
+        self.config.add_bower_components(
+            'djed.static:tests/bower_components', local=True)
         self.config.add_bower_component(
             'djed.static:tests/local_component', '1.0.0')
 
