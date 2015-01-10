@@ -51,7 +51,8 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def add_bower_components(config, path, name=None, local=False):
+def add_bower_components(config, path, name=None,
+                         local=False, local_name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
@@ -63,17 +64,24 @@ def add_bower_components(config, path, name=None, local=False):
     components = bower.components(name, directory)
 
     if local:
-        bower.local_components(bower.local_components_name, components)
+        if not local_name:
+            local_name = bower.local_components_name
+        bower.local_components(local_name, components)
 
     log.info("Add bower components '{0}': {1}".format(name, path))
 
 
-def add_bower_component(config, path, version=None):
+def add_bower_component(config, path, version=None, local_name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
-    local = bower._component_collections.get(bower.local_components_name)
+
+    if not local_name:
+        local_name = bower.local_components_name
+
+    local = bower._component_collections.get(local_name)
+
     if not local:
         raise Error("Bower local components not found.")
 
