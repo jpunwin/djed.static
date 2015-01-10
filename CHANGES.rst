@@ -1,7 +1,7 @@
 Change History
 ==============
 
-0.3 (unreleased)
+0.3 (2015-01-10)
 ----------------
 
 - Support multiple ``bower_components`` directories
