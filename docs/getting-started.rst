@@ -1,21 +1,30 @@
 Getting Started
 ===============
 
-Install the package into your python environment::
+Install the package into your python environment:
 
-    pip install djed.static
+.. code-block:: sh
 
-Include it in your Pyramid application::
+    $ /path/to/pyvenv/bin/pip install djed.static
+
+Include it in your Pyramid application:
+
+.. code-block:: python
 
     config.include('djed.static')
 
-Initialize a ``bower_components`` directory::
+Add a ``bower_components`` directory:
 
-    config.init_bower_components('myapp:static/bower_components')
+.. code-block:: python
 
-Include desired Bower packages on your page. You can do this in templates or
-somewhere else in your code::
+    config.add_bower_components('myapp:static/bower_components')
+
+Include static resources on your HTML page. You can do this in templates or
+somewhere else in your code:
+
+.. code-block:: python
 
     request.include('bootstrap')
 
-All required dependencies are also included on the page.
+All additional required resources are automatically resolved and are also
+included on your HTML page.

@@ -21,7 +21,7 @@ Getting Started
 
 Install the package into your python environment:
 
-.. code-block:: bash
+.. code-block:: sh
 
     $ /path/to/pyvenv/bin/pip install djed.static
 
