@@ -1,4 +1,3 @@
-from pyramid.response import Response
 from base import BaseTestCase
 
 
@@ -57,4 +56,3 @@ class TestLocalComponents(BaseTestCase):
 
         self.assertRaises(Error, self.config.add_bower_component,
                           'djed.static:tests/local_component')
-

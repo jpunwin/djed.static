@@ -1,4 +1,3 @@
-from pyramid.response import Response
 from base import BaseTestCase
 
 

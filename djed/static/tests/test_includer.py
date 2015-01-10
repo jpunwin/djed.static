@@ -181,37 +181,6 @@ class TestIncluder(BaseTestCase):
 
         self.assertEqual(response.body, b'/* myapp.js */\n')
 
-
-    def test_custom_local_components_includer(self):
-
-        def view(request):
-            request.include('myapp', 'custom')
-            return Response('<html><head></head><body></body></html>')
-
-        self.config.add_route('view', '/')
-        self.config.add_view(view, route_name='view')
-        self.config.add_bower_components(
-            'djed.static:tests/bower_components',
-            local=True, local_name='custom')
-        self.config.add_bower_component(
-            'djed.static:tests/local_component', '1.0.0', local_name='custom')
-
-        app = self.make_app()
-        response = app.get('/')
-
-        self.assertEqual(response.body, (
-            b'<html><head>'
-            b'<script type="text/javascript" src='
-            b'"/bowerstatic/components/anycomponent/1.0.0/anycomponent.js">'
-            b'</script>\n<script type="text/javascript" '
-            b'src="/bowerstatic/custom/myapp/1.0.0/myapp.js"></script>'
-            b'</head><body></body></html>'))
-
-        response = app.get('/bowerstatic/custom/myapp/1.0.0/myapp.js')
-
-        self.assertEqual(response.body, b'/* myapp.js */\n')
-
-
     def test_custom_local_components_includer_in_custom_components(self):
 
         def view(request):
