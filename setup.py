@@ -23,7 +23,7 @@ tests_require = install_requires + [
 
 
 setup(name='djed.static',
-      version='0.3',
+      version='0.4.dev0',
       description='Integration of BowerStatic into Pyramid for managing '
                   'static resources with Bower',
       long_description='\n\n'.join([README, CHANGES]),
