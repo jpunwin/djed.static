@@ -22,12 +22,12 @@ Or for local components:
 
     /bowerstatic/local/mycomponent/1.0.0/mycomponent.js
 
-The setting options allow you to change the first part of all your 
+The setting options allow you to change the first part of all your
 components URLs and configure the second part for the default component and
-local URL:
+local component URL:
 
 ``djed.static.publisher_signature``
-    The first part of all components and local URLs.
+    The first part of all components and local components URLs.
 
     default: ``bowerstatic``
 
