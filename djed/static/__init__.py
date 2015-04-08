@@ -26,8 +26,6 @@ def bower_factory_from_settings(settings):
         prefix + 'publisher_signature', 'bowerstatic')
     bower.components_name = settings.get(
         prefix + 'components_name', 'components')
-    bower.local_components_name = settings.get(
-        prefix + 'local_components_name', 'local')
 
     return bower
 
@@ -51,8 +49,7 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def add_bower_components(config, path, name=None,
-                         local=False, local_name=None):
+def add_bower_components(config, path, name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
@@ -63,50 +60,43 @@ def add_bower_components(config, path, name=None,
 
     components = bower.components(name, directory)
 
-    if local:
-        if not local_name:
-            local_name = bower.local_components_name
-        bower.local_components(local_name, components)
-
-    log.info("Add bower components '{0}': {1}".format(name, path))
+    log.info("Add bower components '{0}': {1}".format(components.name, path))
 
 
-def add_bower_component(config, path, version=None, local_name=None):
+def add_bower_component(config, path, version=None, name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
     bower = get_bower(config.registry)
 
-    if not local_name:
-        local_name = bower.local_components_name
+    if not name:
+        name = bower.components_name
 
-    local = bower._component_collections.get(local_name)
+    components = bower._component_collections.get(name)
 
-    if not local:
-        raise Error("Bower local components not found.")
+    if not components:
+        raise Error("Bower components '{0}' not found.".format(name))
 
-    local.component(directory, version)
+    component = components.load_component(
+        directory, 'bower.json', version, version is None)
 
-    log.info("Add bower component: {0}".format(path))
+    components.add(component)
+
+    log.info("Add bower component '{0}': {1}".format(component.name, path))
 
 
-def include(request, path_or_resource, components=None):
+def include(request, path_or_resource, name=None):
     bower = get_bower(request.registry)
 
-    collection = bower._component_collections.get(components)
+    if not name:
+        name = bower.components_name
 
-    if not collection:
-        collection = bower._component_collections.get(
-            bower.local_components_name)
+    components = bower._component_collections.get(name)
 
-    if not collection:
-        collection = bower._component_collections.get(
-            bower.components_name)
+    if not components:
+        raise Error("Bower components '{0}' not found.".format(name))
 
-    if not collection:
-        raise Error("Bower components not found.")
-
-    include = collection.includer(request.environ)
+    include = components.includer(request.environ)
     include(path_or_resource)
 
 

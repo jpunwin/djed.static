@@ -3,7 +3,7 @@ from base import BaseTestCase
 
 class TestComponents(BaseTestCase):
 
-    def test_add_components(self):
+    def test_add(self):
 
         self.config.add_bower_components(
             'djed.static:tests/bower_components')
@@ -13,7 +13,7 @@ class TestComponents(BaseTestCase):
         self.assertIn('components', bower._component_collections)
         self.assertEqual(len(bower._component_collections), 1)
 
-    def test_add_components_conflict_error(self):
+    def test_add_conflict_error(self):
         from djed.static import Error
 
         self.config.add_bower_components(
@@ -22,7 +22,7 @@ class TestComponents(BaseTestCase):
         self.assertRaises(Error, self.config.add_bower_components,
                           'djed.static:tests/components')
 
-    def test_add_custom_components(self):
+    def test_add_custom(self):
 
         self.config.add_bower_components(
             'djed.static:tests/bower_components', name='custom')
@@ -32,7 +32,7 @@ class TestComponents(BaseTestCase):
         self.assertIn('custom', bower._component_collections)
         self.assertEqual(len(bower._component_collections), 1)
 
-    def test_add_custom_components_conflict_error(self):
+    def test_add_custom_conflict_error(self):
         from djed.static import Error
 
         self.config.add_bower_components(
@@ -41,7 +41,7 @@ class TestComponents(BaseTestCase):
         self.assertRaises(Error, self.config.add_bower_components,
                           'djed.static:tests/components', name='custom')
 
-    def test_add_multiple_components(self):
+    def test_add_multiple(self):
 
         self.config.add_bower_components(
             'djed.static:tests/bower_components')
