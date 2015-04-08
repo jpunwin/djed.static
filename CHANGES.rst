@@ -4,7 +4,7 @@ Change History
 0.4 (unreleased)
 ----------------
 
-- No changes yet
+- Simplified creation of local components
 
 
 0.3 (2015-01-10)
