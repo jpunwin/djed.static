@@ -1,5 +1,5 @@
-Change History
-==============
+Changes
+=======
 
 0.4 (unreleased)
 ----------------
