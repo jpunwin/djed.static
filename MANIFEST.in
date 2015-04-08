@@ -1,4 +1,6 @@
-include *.txt *.rst
+include CHANGES.txt
+include LICENSE.txt
+include README.rst
 
 graft djed
 graft docs
