@@ -50,6 +50,9 @@ class BaseTestCase(TestCase):
         app = self.config.make_wsgi_app()
         return TestApp(app)
 
+    def make_asset_spec(self, path):
+        return ':'.join([self.__class__.__module__, path])
+
     def init_request_extensions(self, registry):
         from pyramid.config.factories import _RequestExtensions
 

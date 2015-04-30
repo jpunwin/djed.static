@@ -6,7 +6,7 @@ class TestComponents(BaseTestCase):
     def test_add(self):
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
 
         bower = self.request.get_bower()
 
@@ -17,15 +17,15 @@ class TestComponents(BaseTestCase):
         from djed.static import Error
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
 
         self.assertRaises(Error, self.config.add_bower_components,
-                          'djed.static:tests/components')
+                          'components')
 
     def test_add_custom(self):
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components', name='custom')
+            self.make_asset_spec('bower_components'), name='custom')
 
         bower = self.request.get_bower()
 
@@ -36,17 +36,17 @@ class TestComponents(BaseTestCase):
         from djed.static import Error
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components', name='custom')
+            self.make_asset_spec('bower_components'), name='custom')
 
         self.assertRaises(Error, self.config.add_bower_components,
-                          'djed.static:tests/components', name='custom')
+                          self.make_asset_spec('components'), name='custom')
 
     def test_add_multiple(self):
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
         self.config.add_bower_components(
-            'djed.static:tests/components', name='custom')
+            self.make_asset_spec('components'), name='custom')
 
         bower = self.request.get_bower()
 

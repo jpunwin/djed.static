@@ -6,9 +6,9 @@ class TestLocalComponents(BaseTestCase):
     def test_add(self):
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
         self.config.add_bower_component(
-            'djed.static:tests/local_component')
+            self.make_asset_spec('local_component'))
 
         bower = self.request.get_bower()
 
@@ -19,9 +19,9 @@ class TestLocalComponents(BaseTestCase):
     def test_add_custom(self):
 
         self.config.add_bower_components(
-            'djed.static:tests/bower_components', name='lib')
+            self.make_asset_spec('bower_components'), name='lib')
         self.config.add_bower_component(
-            'djed.static:tests/local_component', name='lib')
+            self.make_asset_spec('local_component'), name='lib')
 
         bower = self.request.get_bower()
 
@@ -35,4 +35,4 @@ class TestLocalComponents(BaseTestCase):
         from djed.static import Error
 
         self.assertRaises(Error, self.config.add_bower_component,
-                          'djed.static:tests/local_component')
+                          self.make_asset_spec('local_component'))

@@ -4,5 +4,6 @@ include README.rst
 
 graft djed
 graft docs
+graft tests
 
 global-exclude *.pyc

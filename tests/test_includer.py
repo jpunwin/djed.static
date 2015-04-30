@@ -13,7 +13,7 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
 
         app = self.make_app()
         response = app.get('/')
@@ -39,7 +39,7 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
         self.config.add_bower_components(
-            'djed.static:tests/bower_components', name='lib')
+            self.make_asset_spec('bower_components'), name='lib')
 
         app = self.make_app()
         response = app.get('/')
@@ -66,9 +66,9 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(
             view, route_name='view',
-            renderer='djed.static:tests/templates/index.pt')
+            renderer=self.make_asset_spec('templates/index.pt'))
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
 
         app = self.make_app()
         response = app.get('/')
@@ -99,9 +99,9 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
         self.config.add_bower_component(
-            'djed.static:tests/local_component', '1.0.0')
+            self.make_asset_spec('local_component'), '1.0.0')
 
         app = self.make_app()
         response = app.get('/')
@@ -127,11 +127,11 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(
             view, route_name='view',
-            renderer='djed.static:tests/templates/index_local.pt')
+            renderer=self.make_asset_spec('templates/index_local.pt'))
         self.config.add_bower_components(
-            'djed.static:tests/bower_components')
+            self.make_asset_spec('bower_components'))
         self.config.add_bower_component(
-            'djed.static:tests/local_component', '1.0.0')
+            self.make_asset_spec('local_component'), '1.0.0')
 
         app = self.make_app()
         response = app.get('/')
@@ -161,9 +161,9 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
         self.config.add_bower_components(
-            'djed.static:tests/bower_components', name='lib')
+            self.make_asset_spec('bower_components'), name='lib')
         self.config.add_bower_component(
-            'djed.static:tests/local_component', '1.0.0', name='lib')
+            self.make_asset_spec('local_component'), '1.0.0', name='lib')
 
         app = self.make_app()
         response = app.get('/')
