@@ -55,7 +55,7 @@ def add_bower_components(config, path, name=None):
 
     bower = get_bower(config.registry)
 
-    if not name:
+    if name is None:
         name = bower.components_name
 
     components = bower.components(name, directory)
@@ -69,12 +69,12 @@ def add_bower_component(config, path, version=None, name=None):
 
     bower = get_bower(config.registry)
 
-    if not name:
+    if name is None:
         name = bower.components_name
 
     components = bower._component_collections.get(name)
 
-    if not components:
+    if components is None:
         raise Error("Bower components '{0}' not found.".format(name))
 
     component = components.load_component(
@@ -88,12 +88,12 @@ def add_bower_component(config, path, version=None, name=None):
 def include(request, path_or_resource, name=None):
     bower = get_bower(request.registry)
 
-    if not name:
+    if name is None:
         name = bower.components_name
 
     components = bower._component_collections.get(name)
 
-    if not components:
+    if components is None:
         raise Error("Bower components '{0}' not found.".format(name))
 
     include = components.includer(request.environ)
