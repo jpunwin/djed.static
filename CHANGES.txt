@@ -6,11 +6,13 @@ Changes
 
 - Simplified creation of local components
 
+- Changed to PEP 420 namespace package
+
 
 0.3 (2015-01-10)
 ----------------
 
-- Support multiple ``bower_components`` directories
+- Support multiple `bower_components` directories
 
 
 0.2 (2015-01-09)
@@ -18,7 +20,7 @@ Changes
 
 - Added documentation
 
-- Added ``ini`` setting options
+- Added `ini` setting options
 
 
 0.1 (2015-01-06)
