@@ -15,7 +15,7 @@ install_requires = [
     'zope.interface',
     ]
 
-tests_require = install_requires + [
+tests_require = [
     'nose',
     'pyramid_chameleon',
     'webtest',
@@ -45,8 +45,9 @@ setup(name='djed.static',
       keywords='web pyramid pylons bower static bowerstatic',
       packages=find_packages(),
       include_package_data=True,
-      zip_safe=False,
       install_requires=install_requires,
-      tests_require=tests_require,
+      extras_require={
+          'test': tests_require,
+      },
       test_suite='nose.collector',
       )
