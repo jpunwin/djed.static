@@ -25,7 +25,7 @@ add one or more local components:
    .. code-block:: python
 
       import pkg_resources
-      version = pkg_resources.get_distribution('myproject').version
+      version = pkg_resources.get_distribution('myapp').version
 
 Now you can include the added local components on your HTML page like any
 other component:
