@@ -24,6 +24,8 @@ def bower_factory_from_settings(settings):
 
     bower.publisher_signature = settings.get(
         prefix + 'publisher_signature', 'bowerstatic')
+    bower.components_path = settings.get(
+        prefix + 'components_path', None)
     bower.components_name = settings.get(
         prefix + 'components_name', 'components')
 
@@ -111,3 +113,6 @@ def includeme(config):
 
     config.add_request_method(include, 'include')
     config.add_request_method(get_bower, 'get_bower')
+
+    if bower.components_path is not None:
+        config.add_bower_components(bower.components_path)

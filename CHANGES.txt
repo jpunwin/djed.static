@@ -6,6 +6,8 @@ Changes
 
 - Simplified creation of local components
 
+- Added setting option `components_path`
+
 - Changed to PEP 420 namespace package
 
 
@@ -20,7 +22,7 @@ Changes
 
 - Added documentation
 
-- Added `ini` setting options
+- Added setting options via ini file
 
 
 0.1 (2015-01-06)

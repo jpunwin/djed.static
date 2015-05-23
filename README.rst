@@ -31,7 +31,15 @@ Include it in your Pyramid application:
 
     config.include('djed.static')
 
-Add a ``bower_components`` directory:
+Set-up the path to the ``bower_components`` directory in your ``.ini`` file:
+
+.. code-block:: ini
+
+    [app:main]
+    # ... other settings ...
+    djed.static.components_path = myapp:static/bower_components
+
+Or use the following statement to add the ``bower_components`` directory:
 
 .. code-block:: python
 

@@ -1,5 +1,5 @@
 from pyramid.response import Response
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestIncluder(BaseTestCase):

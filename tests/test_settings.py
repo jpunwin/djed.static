@@ -1,5 +1,5 @@
 from pyramid.response import Response
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestSettingsDefault(BaseTestCase):
@@ -9,6 +9,7 @@ class TestSettingsDefault(BaseTestCase):
         bower = request.get_bower()
 
         self.assertEqual(bower.publisher_signature, 'bowerstatic')
+        self.assertEqual(bower.components_path, None)
         self.assertEqual(bower.components_name, 'components')
 
     def test_include_path(self):
@@ -19,8 +20,10 @@ class TestSettingsDefault(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
+
         self.config.add_bower_components(
             self.make_asset_spec('bower_components'))
+
         self.config.add_bower_component(
             self.make_asset_spec('local_component'), '1.0.0')
 
@@ -40,6 +43,7 @@ class TestSettingsCustom(BaseTestCase):
 
     _settings = {
         'djed.static.publisher_signature': 'static',
+        'djed.static.components_path': 'tests:bower_components',
         'djed.static.components_name': 'lib',
     }
 
@@ -48,6 +52,7 @@ class TestSettingsCustom(BaseTestCase):
         bower = request.get_bower()
 
         self.assertEqual(bower.publisher_signature, 'static')
+        self.assertEqual(bower.components_path, 'tests:bower_components')
         self.assertEqual(bower.components_name, 'lib')
 
     def test_include_path(self):
@@ -58,8 +63,7 @@ class TestSettingsCustom(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.add_bower_components(
-            self.make_asset_spec('bower_components'))
+
         self.config.add_bower_component(
             self.make_asset_spec('local_component'), '1.0.0')
 
