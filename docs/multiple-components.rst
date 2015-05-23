@@ -17,7 +17,7 @@ You can use components from this directories as follows:
 
 .. code-block:: python
 
-    request.include('bootstrap', 'more')
+    request.include('jquery', 'more')
 
 To use this ``bower_components`` directory for local components:
 

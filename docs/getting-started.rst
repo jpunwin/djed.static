@@ -32,7 +32,7 @@ somewhere else in your code:
 
 .. code-block:: python
 
-    request.include('bootstrap')
+    request.include('jquery')
 
 All additional required resources are automatically resolved and are also
 included on your HTML page.
