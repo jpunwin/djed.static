@@ -4,7 +4,7 @@ python:
   - 3.4
 
 install:
-  - pip install -e .[test]
+  - pip install -e .[testing]
 
 script:
   - python setup.py test

@@ -29,7 +29,6 @@ setup(
                 'static resources with Bower',
     long_description='\n\n'.join([README, CHANGES]),
     classifiers=[
-        'Development Status :: 4 - Beta',
         "Framework :: Pyramid",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: ISC License (ISCL)",
@@ -43,11 +42,11 @@ setup(
     url='https://github.com/djedproject/djed.static',
     license='ISC License (ISCL)',
     keywords='djed pyramid pylons bower static bowerstatic',
-    packages=find_packages(),
+    packages=['djed.static'],
     include_package_data=True,
     install_requires=install_requires,
     extras_require={
-        'test': tests_require,
+        'testing': tests_require,
     },
     test_suite='nose.collector',
 )
