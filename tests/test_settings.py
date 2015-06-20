@@ -1,8 +1,10 @@
 from pyramid.response import Response
-from .base import BaseTestCase
+from djed.testing import BaseTestCase
 
 
 class TestSettingsDefault(BaseTestCase):
+
+    _includes = ('djed.static',)
 
     def test_setup(self):
         request = self.make_request()
@@ -39,6 +41,7 @@ class TestSettingsDefault(BaseTestCase):
 
 class TestSettingsCustom(BaseTestCase):
 
+    _includes = ('djed.static',)
     _settings = {
         'djed.static.publisher_signature': 'static',
         'djed.static.components_path': 'tests:bower_components',

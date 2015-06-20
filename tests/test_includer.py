@@ -1,8 +1,10 @@
 from pyramid.response import Response
-from .base import BaseTestCase
+from djed.testing import BaseTestCase
 
 
 class TestIncluder(BaseTestCase):
+
+    _includes = ('djed.static',)
 
     def test_components(self):
 
