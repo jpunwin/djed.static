@@ -2,23 +2,10 @@ import os
 
 from setuptools import setup
 
-here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.rst')) as f:
-    README = f.read()
-with open(os.path.join(here, 'CHANGES.txt')) as f:
-    CHANGES = f.read()
-
-install_requires = [
-    'bowerstatic',
-    'pyramid',
-    'zope.interface',
-]
-
-tests_require = [
-    'djed.testing',
-    'pyramid_chameleon',
-]
+def read(f):
+    here = os.path.abspath(os.path.dirname(__file__))
+    return open(os.path.join(here, f), encoding='utf-8').read().strip()
 
 
 setup(
@@ -26,7 +13,7 @@ setup(
     version='0.5.dev0',
     description='Integration of BowerStatic into Pyramid for managing '
                 'static resources with Bower',
-    long_description='\n\n'.join([README, CHANGES]),
+    long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
     classifiers=[
         "Framework :: Pyramid",
         "Intended Audience :: Developers",
@@ -43,9 +30,16 @@ setup(
     keywords='djed pyramid pylons bower static bowerstatic',
     packages=['djed.static'],
     include_package_data=True,
-    install_requires=install_requires,
+    install_requires=[
+        'bowerstatic',
+        'pyramid',
+        'zope.interface',
+    ],
     extras_require={
-        'testing': tests_require,
+        'testing': [
+            'djed.testing',
+            'pyramid_chameleon',
+        ],
     },
     test_suite='nose.collector',
 )
