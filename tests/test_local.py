@@ -1,3 +1,5 @@
+from pyramid.exceptions import ConfigurationError
+
 from djed.testing import BaseTestCase
 
 
@@ -15,6 +17,14 @@ class TestLocalComponents(BaseTestCase):
         collection = bower._component_collections['components']
 
         self.assertIn('myapp', collection._components)
+
+
+    def test_add_non_existent(self):
+        self.assertRaises(ConfigurationError, self.config.add_bower_component,
+                          'tests:not_exists')
+
+        self.assertRaises(ConfigurationError, self.config.add_bower_component,
+                          'tests:empty_dir')
 
     def test_add_custom(self):
 

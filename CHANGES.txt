@@ -4,7 +4,8 @@ Changes
 0.5 (unreleased)
 ----------------
 
-- No changes yet
+- Added checkings if components directory exists and if local component
+  contains `bower.json` file
 
 
 0.4 (2015-05-24)

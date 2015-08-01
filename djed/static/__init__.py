@@ -76,6 +76,12 @@ def add_bower_component(config, path, version=None, name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
+    if not os.path.isfile(os.path.join(directory, 'bower.json')):
+        raise ConfigurationError(
+            "Directory '{0}' does not contain 'bower.json' file"
+            .format(directory)
+        )
+
     bower = get_bower(config.registry)
 
     if name is None:
