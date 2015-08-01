@@ -9,6 +9,7 @@ from bowerstatic import (
     PublisherTween,
 )
 from pyramid.path import AssetResolver
+from pyramid.exceptions import ConfigurationError
 
 
 log = logging.getLogger('djed.static')
