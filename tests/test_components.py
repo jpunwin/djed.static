@@ -1,4 +1,7 @@
-from pyramid.exceptions import ConfigurationError
+from pyramid.exceptions import (
+    ConfigurationConflictError,
+    ConfigurationError,
+)
 
 from djed.testing import BaseTestCase
 
@@ -21,6 +24,14 @@ class TestComponents(BaseTestCase):
                           'tests:not_exists')
 
     def test_add_conflict_error(self):
+        self.config.autocommit = False
+
+        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:bower_components')
+
+        self.assertRaises(ConfigurationConflictError, self.config.commit)
+
+    def test_add_conflict_error2(self):
         from djed.static import Error
 
         self.config.add_bower_components('tests:bower_components')

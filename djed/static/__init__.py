@@ -74,10 +74,15 @@ def add_bower_components(config, path, name=None):
     if name is None:
         name = bower.components_name
 
-    components = bower.components(name, directory)
-    registry.registerUtility(components, IBowerComponents, name=name)
+    discr = ('djed:static', name)
 
-    log.info("Add bower components '{0}': {1}".format(components.name, path))
+    def register():
+        components = bower.components(name, directory)
+        registry.registerUtility(components, IBowerComponents, name=name)
+
+        log.info("Add bower components '{0}': {1}".format(components.name, path))
+
+    config.action(discr, register)
 
 
 def add_bower_component(config, path, version=None, name=None):
@@ -96,17 +101,22 @@ def add_bower_component(config, path, version=None, name=None):
     if name is None:
         name = bower.components_name
 
-    components = registry.queryUtility(IBowerComponents, name=name)
+    discr = ('djed:static', name, directory)
 
-    if components is None:
-        raise Error("Bower components '{0}' not found.".format(name))
+    def register():
+        components = registry.queryUtility(IBowerComponents, name=name)
 
-    component = components.load_component(
-        directory, 'bower.json', version, version is None)
+        if components is None:
+            raise Error("Bower components '{0}' not found.".format(name))
 
-    components.add(component)
+        component = components.load_component(
+            directory, 'bower.json', version, version is None)
 
-    log.info("Add bower component '{0}': {1}".format(component.name, path))
+        components.add(component)
+
+        log.info("Add bower component '{0}': {1}".format(component.name, path))
+
+    config.action(discr, register)
 
 
 def include(request, path_or_resource, name=None):
