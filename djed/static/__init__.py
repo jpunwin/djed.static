@@ -1,4 +1,6 @@
 import logging
+import os
+
 from zope.interface import Interface
 from bowerstatic import (
     Bower,
@@ -54,6 +56,11 @@ def bowerstatic_tween_factory(handler, registry):
 def add_bower_components(config, path, name=None):
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
+
+    if not os.path.isdir(directory):
+        raise ConfigurationError(
+            "Directory '{0}' does not exist".format(directory)
+        )
 
     bower = get_bower(config.registry)
 

@@ -1,3 +1,5 @@
+from pyramid.exceptions import ConfigurationError
+
 from djed.testing import BaseTestCase
 
 
@@ -13,6 +15,10 @@ class TestComponents(BaseTestCase):
 
         self.assertIn('components', bower._component_collections)
         self.assertEqual(len(bower._component_collections), 1)
+
+    def test_add_non_existent_dir(self):
+        self.assertRaises(ConfigurationError, self.config.add_bower_components,
+                          'tests:not_exists')
 
     def test_add_conflict_error(self):
         from djed.static import Error
