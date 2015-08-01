@@ -20,6 +20,11 @@ class IBower(Interface):
     """
 
 
+class IBowerComponents(Interface):
+    """ Bower components interface
+    """
+
+
 def bower_factory_from_settings(settings):
     prefix = settings.get('djed.static.prefix', 'djed.static.')
 
@@ -55,6 +60,7 @@ def bowerstatic_tween_factory(handler, registry):
 
 
 def add_bower_components(config, path, name=None):
+    registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
@@ -63,17 +69,19 @@ def add_bower_components(config, path, name=None):
             "Directory '{0}' does not exist".format(directory)
         )
 
-    bower = get_bower(config.registry)
+    bower = get_bower(registry)
 
     if name is None:
         name = bower.components_name
 
     components = bower.components(name, directory)
+    registry.registerUtility(components, IBowerComponents, name=name)
 
     log.info("Add bower components '{0}': {1}".format(components.name, path))
 
 
 def add_bower_component(config, path, version=None, name=None):
+    registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
 
@@ -83,12 +91,12 @@ def add_bower_component(config, path, version=None, name=None):
             .format(directory)
         )
 
-    bower = get_bower(config.registry)
+    bower = get_bower(registry)
 
     if name is None:
         name = bower.components_name
 
-    components = bower._component_collections.get(name)
+    components = registry.queryUtility(IBowerComponents, name=name)
 
     if components is None:
         raise Error("Bower components '{0}' not found.".format(name))
@@ -102,12 +110,13 @@ def add_bower_component(config, path, version=None, name=None):
 
 
 def include(request, path_or_resource, name=None):
-    bower = get_bower(request.registry)
+    registry = request.registry
+    bower = get_bower(registry)
 
     if name is None:
         name = bower.components_name
 
-    components = bower._component_collections.get(name)
+    components = registry.queryUtility(IBowerComponents, name=name)
 
     if components is None:
         raise Error("Bower components '{0}' not found.".format(name))
