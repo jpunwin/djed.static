@@ -5,7 +5,7 @@ Changes
 ----------------
 
 - Added checkings if components directory exists and if local component
-  contains `bower.json` file
+  contains ``bower.json`` file
 
 
 0.4 (2015-05-24)
@@ -13,7 +13,7 @@ Changes
 
 - Simplified creation of local components
 
-- Added setting option `components_path`
+- Added setting option ``components_path``
 
 - Changed to PEP 420 namespace package
 
@@ -21,7 +21,7 @@ Changes
 0.3 (2015-01-10)
 ----------------
 
-- Support multiple `bower_components` directories
+- Support multiple ``bower_components`` directories
 
 
 0.2 (2015-01-09)
