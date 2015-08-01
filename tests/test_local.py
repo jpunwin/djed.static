@@ -18,7 +18,6 @@ class TestLocalComponents(BaseTestCase):
 
         self.assertIn('myapp', collection._components)
 
-
     def test_add_non_existent(self):
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
                           'tests:not_exists')
