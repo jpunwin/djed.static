@@ -25,6 +25,11 @@ class IBowerComponents(Interface):
     """
 
 
+class IBowerComponent(Interface):
+    """ Bower component interface for local components
+    """
+
+
 def bower_factory_from_settings(settings):
     prefix = settings.get('djed.static.prefix', 'djed.static.')
 
@@ -112,6 +117,8 @@ def add_bower_component(config, name, path, version=None):
             directory, 'bower.json', version, version is None)
 
         components.add(component)
+
+        registry.registerUtility(component, IBowerComponent, name=name)
 
         log.info("Add bower component '{0}': {1}".format(component.name, path))
 
