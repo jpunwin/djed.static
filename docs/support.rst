@@ -5,7 +5,7 @@ If you've got questions, contact the `djedproject mailling list`_.
 
 To report bugs, use the `issue tracker`_.
 
-Check out trunk version via the `Github repository`_:
+Check out latest version via the `Github repository`_:
 
 .. code-block:: bash
 
