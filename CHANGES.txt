@@ -8,7 +8,7 @@ Changes
 
 - Removed support for multiple ``bower_components`` directories
 
-- Added checkings if components directory exists and if local component
+- Added checks if components directory exists and if local component
   contains ``bower.json`` file
 
 
