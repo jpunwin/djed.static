@@ -10,7 +10,7 @@ class TestLocalComponents(BaseTestCase):
     def test_add(self):
 
         self.config.add_bower_components('tests:bower_components')
-        self.config.add_bower_component('tests:local_component')
+        self.config.add_bower_component('myapp', 'tests:local_component')
 
         bower = self.request.get_bower()
 
@@ -20,13 +20,13 @@ class TestLocalComponents(BaseTestCase):
 
     def test_add_non_existent(self):
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
-                          'tests:not_exists')
+                          'myapp', 'tests:not_exists')
 
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
-                          'tests:empty_dir')
+                          'myapp', 'tests:empty_dir')
 
     def test_add_error(self):
         from djed.static import Error
 
         self.assertRaises(Error, self.config.add_bower_component,
-                          'tests:local_component')
+                          'myapp', 'tests:local_component')

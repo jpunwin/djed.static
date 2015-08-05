@@ -84,7 +84,7 @@ def add_bower_components(config, path):
     config.action(discr, register)
 
 
-def add_bower_component(config, path, version=None):
+def add_bower_component(config, name, path, version=None):
     registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
@@ -96,15 +96,17 @@ def add_bower_component(config, path, version=None):
         )
 
     bower = get_bower(registry)
-    name = bower.components_name
+    components_name = bower.components_name
 
-    discr = ('djed:static', name, directory)
+    discr = ('djed:static', components_name, name)
 
     def register():
-        components = registry.queryUtility(IBowerComponents, name=name)
+        components = registry.queryUtility(
+            IBowerComponents, name=components_name)
 
         if components is None:
-            raise Error("Bower components '{0}' not found.".format(name))
+            raise Error("Bower components '{0}' not found."
+                        .format(components_name))
 
         component = components.load_component(
             directory, 'bower.json', version, version is None)
