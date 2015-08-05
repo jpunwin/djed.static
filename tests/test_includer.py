@@ -31,32 +31,6 @@ class TestIncluder(BaseTestCase):
 
         self.assertEqual(response.body, b'/* anycomponent.js */\n')
 
-    def test_custom_components(self):
-
-        def view(request):
-            request.include('anycomponent', 'lib')
-            return Response('<html><head></head><body></body></html>')
-
-        self.config.add_route('view', '/')
-        self.config.add_view(view, route_name='view')
-        self.config.add_bower_components('tests:bower_components', name='lib')
-
-        app = self.make_app()
-        response = app.get('/')
-
-        self.assertEqual(response.body, (
-            b'<html><head>'
-            b'<script type="text/javascript" '
-            b'src="/bowerstatic/lib/'
-            b'anycomponent/1.0.0/anycomponent.js">'
-            b'</script>'
-            b'</head><body></body></html>'))
-
-        response = app.get('/bowerstatic/lib/'
-                           'anycomponent/1.0.0/anycomponent.js')
-
-        self.assertEqual(response.body, b'/* anycomponent.js */\n')
-
     def test_components_in_template(self):
 
         def view(request):
@@ -142,32 +116,5 @@ class TestIncluder(BaseTestCase):
         self.assertEqual(response.body, b'/* anycomponent.js */\n')
 
         response = app.get('/bowerstatic/components/myapp/1.0.0/myapp.js')
-
-        self.assertEqual(response.body, b'/* myapp.js */\n')
-
-    def test_custom_local_component(self):
-
-        def view(request):
-            request.include('myapp', 'lib')
-            return Response('<html><head></head><body></body></html>')
-
-        self.config.add_route('view', '/')
-        self.config.add_view(view, route_name='view')
-        self.config.add_bower_components('tests:bower_components', name='lib')
-        self.config.add_bower_component(
-            'tests:local_component', '1.0.0', name='lib')
-
-        app = self.make_app()
-        response = app.get('/')
-
-        self.assertEqual(response.body, (
-            b'<html><head>'
-            b'<script type="text/javascript" src='
-            b'"/bowerstatic/lib/anycomponent/1.0.0/anycomponent.js">'
-            b'</script>\n<script type="text/javascript" '
-            b'src="/bowerstatic/lib/myapp/1.0.0/myapp.js"></script>'
-            b'</head><body></body></html>'))
-
-        response = app.get('/bowerstatic/lib/myapp/1.0.0/myapp.js')
 
         self.assertEqual(response.body, b'/* myapp.js */\n')

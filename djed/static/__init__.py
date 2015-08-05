@@ -59,7 +59,7 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def add_bower_components(config, path, name=None):
+def add_bower_components(config, path):
     registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
@@ -71,8 +71,7 @@ def add_bower_components(config, path, name=None):
 
     bower = get_bower(registry)
 
-    if name is None:
-        name = bower.components_name
+    name = bower.components_name
 
     discr = ('djed:static', name)
 
@@ -85,7 +84,7 @@ def add_bower_components(config, path, name=None):
     config.action(discr, register)
 
 
-def add_bower_component(config, path, version=None, name=None):
+def add_bower_component(config, path, version=None):
     registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
@@ -97,9 +96,7 @@ def add_bower_component(config, path, version=None, name=None):
         )
 
     bower = get_bower(registry)
-
-    if name is None:
-        name = bower.components_name
+    name = bower.components_name
 
     discr = ('djed:static', name, directory)
 
@@ -119,12 +116,11 @@ def add_bower_component(config, path, version=None, name=None):
     config.action(discr, register)
 
 
-def include(request, path_or_resource, name=None):
+def include(request, path_or_resource):
     registry = request.registry
     bower = get_bower(registry)
 
-    if name is None:
-        name = bower.components_name
+    name = bower.components_name
 
     components = registry.queryUtility(IBowerComponents, name=name)
 
