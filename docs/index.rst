@@ -17,8 +17,8 @@ Dependencies
 ============
 
 - python >= 3.3
-- `pyramid <https://pypi.python.org/pypi/pyramid>`_
-- `bowerstatic <https://pypi.python.org/pypi/bowerstatic>`_
+- `pyramid <https://pypi.python.org/pypi/pyramid>`__
+- `bowerstatic <https://pypi.python.org/pypi/bowerstatic>`__
 
 Contents
 ========
