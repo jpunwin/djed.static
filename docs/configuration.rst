@@ -1,3 +1,5 @@
+.. _configuration:
+
 Configuration
 =============
 
@@ -20,16 +22,16 @@ The setting options allow you to change the first and second part of your
 static components URLs:
 
 djed.static.publisher_signature
-    The first part of the static components URLs.
+    The first part of all static components URLs.
 
     default: ``bowerstatic``
+
+djed.static.components_name
+    The name for the components collection (second part of the static URL).
+
+    default: ``components``
 
 djed.static.components_path
     The path or asset specification to the ``bower_components`` directory.
 
     default: ``None``
-
-djed.static.components_name
-    The name for the components collection.
-
-    default: ``components``

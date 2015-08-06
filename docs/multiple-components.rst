@@ -1,3 +1,5 @@
+.. _multiple-components:
+
 Multiple Component Directories
 ===============================
 

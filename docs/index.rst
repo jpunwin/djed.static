@@ -29,6 +29,7 @@ Contents
    getting-started
    local-components
    configuration
+   api
    support
    changes
 

@@ -1,3 +1,5 @@
+.. _local-components:
+
 Local Components
 ================
 
@@ -5,7 +7,7 @@ If you develop your own front-end-code (so called "local components"), you
 can also publish them with BowerStatic.
 
 First of all you have to create a ``bower_components`` directory as described
-in :ref:`getting-started` and add one or more local components:
+in :ref:`getting-started` and then you can add one or more local components:
 
 .. code-block:: python
 

@@ -65,6 +65,8 @@ def bowerstatic_tween_factory(handler, registry):
 
 
 def add_bower_components(config, path):
+    """
+    """
     registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
@@ -90,6 +92,8 @@ def add_bower_components(config, path):
 
 
 def add_bower_component(config, name, path, version=None):
+    """
+    """
     registry = config.registry
     resolver = AssetResolver()
     directory = resolver.resolve(path).abspath()
@@ -126,6 +130,8 @@ def add_bower_component(config, name, path, version=None):
 
 
 def include(request, path_or_resource):
+    """
+    """
     registry = request.registry
     bower = get_bower(registry)
 
