@@ -16,6 +16,13 @@ package manager.
 
 .. _Pyramid Web Framework: https://pyramid.readthedocs.org
 
+Dependencies
+============
+
+- python >= 3.3
+- `pyramid <https://pypi.python.org/pypi/pyramid>`_
+- `bowerstatic <https://pypi.python.org/pypi/bowerstatic>`_
+
 Getting Started
 ===============
 

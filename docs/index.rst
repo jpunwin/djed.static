@@ -2,7 +2,7 @@
 djed.static
 ===========
 
-djed.static integrates BowerStatic_ into the `Pyramid Web Framework`_.
+``djed.static`` integrates BowerStatic_ into the `Pyramid Web Framework`_.
 BowerStatic is a WSGI component that can serve static resources from
 front-end packages (JavaScript, CSS) that you install through the Bower_
 package manager.
@@ -12,6 +12,13 @@ package manager.
 .. _BowerStatic: https://bowerstatic.readthedocs.org
 
 .. _Pyramid Web Framework: https://pyramid.readthedocs.org
+
+Dependencies
+============
+
+- python >= 3.3
+- `pyramid <https://pypi.python.org/pypi/pyramid>`_
+- `bowerstatic <https://pypi.python.org/pypi/bowerstatic>`_
 
 Contents
 ========
