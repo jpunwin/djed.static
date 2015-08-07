@@ -1,5 +1,6 @@
 import logging
 import os
+from collections import namedtuple
 
 from zope.interface import Interface
 from bowerstatic import (
@@ -8,11 +9,16 @@ from bowerstatic import (
     InjectorTween,
     PublisherTween,
 )
+from pyramid.interfaces import IApplicationCreated
 from pyramid.path import AssetResolver
 from pyramid.exceptions import ConfigurationError
 
 
 log = logging.getLogger('djed.static')
+
+
+StaticPackageContainer = namedtuple('StaticPackageContainer', 'name path')
+StaticPackage = namedtuple('StaticPackage', 'name path version container')
 
 
 class IBower(Interface):
@@ -35,6 +41,7 @@ def bower_factory_from_settings(settings):
 
     bower = Bower()
 
+    bower.initialized = False
     bower.publisher_signature = settings.get(
         prefix + 'publisher_signature', 'bowerstatic')
     bower.components_path = settings.get(
@@ -83,10 +90,8 @@ def add_bower_components(config, path):
     discr = ('djed:static', name)
 
     def register():
-        components = bower.components(name, directory)
-        registry.registerUtility(components, IBowerComponents, name=name)
-
-        log.info("Add bower components '{0}': {1}".format(components.name, path))
+        container = StaticPackageContainer(name, directory)
+        registry.registerUtility(container, IBowerComponents, name=name)
 
     config.action(discr, register)
 
@@ -105,26 +110,13 @@ def add_bower_component(config, name, path, version=None):
         )
 
     bower = get_bower(registry)
-    components_name = bower.components_name
+    container = bower.components_name
 
-    discr = ('djed:static', components_name, name)
+    discr = ('djed:static', name, container)
 
     def register():
-        components = registry.queryUtility(
-            IBowerComponents, name=components_name)
-
-        if components is None:
-            raise Error("Bower components '{0}' not found."
-                        .format(components_name))
-
-        component = components.load_component(
-            directory, 'bower.json', version, version is None)
-
-        components.add(component)
-
-        registry.registerUtility(component, IBowerComponent, name=name)
-
-        log.info("Add bower component '{0}': {1}".format(component.name, path))
+        package = StaticPackage(name, directory, version, container)
+        registry.registerUtility(package, IBowerComponent, name=name)
 
     config.action(discr, register)
 
@@ -137,7 +129,7 @@ def include(request, path_or_resource):
 
     name = bower.components_name
 
-    components = registry.queryUtility(IBowerComponents, name=name)
+    components = bower._component_collections.get(name)
 
     if components is None:
         raise Error("Bower components '{0}' not found.".format(name))
@@ -146,11 +138,41 @@ def include(request, path_or_resource):
     include(path_or_resource)
 
 
+def init_static(event):
+    registry = event.app.registry
+    bower = get_bower(registry)
+
+    if not bower.initialized:
+        log.info("Initialize static resources...")
+
+        for _, container in registry.getUtilitiesFor(IBowerComponents):
+            bower.components(container.name, container.path)
+
+            log.info("Add static resource collection '{0}': {1}".format(*container))
+
+        for _, package in registry.getUtilitiesFor(IBowerComponent):
+            container = bower._component_collections.get(package.container)
+
+            if container is None:
+                raise Error("Bower components '{0}' not found."
+                            .format(package.container))
+
+            component = container.load_component(
+                package.path, 'bower.json', package.version, package.version is None)
+
+            container.add(component)
+
+            log.info("Add local static package '{0}': {1}".format(*package))
+
+        bower.initialized = True
+
+
 def includeme(config):
     bower = bower_factory_from_settings(config.registry.settings)
     config.registry.registerUtility(bower, IBower)
 
     config.add_tween('djed.static.bowerstatic_tween_factory')
+    config.add_subscriber(init_static, IApplicationCreated)
 
     config.add_directive('add_bower_components', add_bower_components)
     config.add_directive('add_bower_component', add_bower_component)

@@ -11,6 +11,7 @@ class TestLocalComponents(BaseTestCase):
 
         self.config.add_bower_components('tests:bower_components')
         self.config.add_bower_component('myapp', 'tests:local_component')
+        self.config.make_wsgi_app()
 
         bower = self.request.get_bower()
 
@@ -25,8 +26,23 @@ class TestLocalComponents(BaseTestCase):
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
                           'myapp', 'tests:empty_dir')
 
+    def test_add_local_component_before_container(self):
+        self.config.add_bower_component('myapp', 'tests:local_component')
+        self.config.commit()
+
+        self.config.add_bower_components('tests:bower_components')
+        self.config.make_wsgi_app()
+
+        bower = self.request.get_bower()
+
+        collection = bower._component_collections['components']
+
+        self.assertIn('myapp', collection._components)
+        
+
     def test_add_error(self):
         from djed.static import Error
 
-        self.assertRaises(Error, self.config.add_bower_component,
-                          'myapp', 'tests:local_component')
+        self.config.add_bower_component('myapp', 'tests:local_component')
+        
+        self.assertRaises(Error, self.config.make_wsgi_app)
