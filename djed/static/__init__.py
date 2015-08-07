@@ -17,7 +17,7 @@ log = logging.getLogger('djed.static')
 
 
 StaticPackageContainer = namedtuple('StaticPackageContainer', 'name path')
-StaticPackage = namedtuple('StaticPackage', 'name path version container')
+StaticPackage = namedtuple('StaticPackage', 'name path container')
 
 
 class IBower(Interface):
@@ -95,7 +95,7 @@ def add_bower_components(config, path):
     config.action(discr, register)
 
 
-def add_bower_component(config, name, path, version=None):
+def add_bower_component(config, name, path):
     """
     """
     registry = config.registry
@@ -114,7 +114,7 @@ def add_bower_component(config, name, path, version=None):
     discr = ('djed:static', name, container)
 
     def register():
-        package = StaticPackage(name, directory, version, container)
+        package = StaticPackage(name, directory, container)
         registry.registerUtility(package, IBowerComponent, name=name)
 
     config.action(discr, register)
@@ -157,7 +157,7 @@ def init_static(event):
                             .format(package.container))
 
             component = container.load_component(
-                package.path, 'bower.json', package.version, package.version is None)
+                package.path, 'bower.json')
 
             container.add(component)
 

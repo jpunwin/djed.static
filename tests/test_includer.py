@@ -72,7 +72,7 @@ class TestIncluder(BaseTestCase):
         self.config.add_view(view, route_name='view')
         self.config.add_bower_components('tests:bower_components')
         self.config.add_bower_component(
-            'myapp', 'tests:local_component', '1.0.0')
+            'myapp', 'tests:local_component')
 
         app = self.make_app()
         response = app.get('/')
@@ -100,7 +100,7 @@ class TestIncluder(BaseTestCase):
             view, route_name='view', renderer='tests:templates/index_local.pt')
         self.config.add_bower_components('tests:bower_components')
         self.config.add_bower_component(
-            'myapp', 'tests:local_component', '1.0.0')
+            'myapp', 'tests:local_component')
 
         app = self.make_app()
         response = app.get('/')
