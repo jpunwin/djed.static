@@ -1,5 +1,3 @@
-from pyramid.exceptions import ConfigurationError
-
 from djed.testing import BaseTestCase
 
 
@@ -20,6 +18,8 @@ class TestLocalComponents(BaseTestCase):
         self.assertIn('myapp', collection._components)
 
     def test_add_non_existent(self):
+        from pyramid.exceptions import ConfigurationError
+
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
                           'myapp', 'tests:not_exists')
 
@@ -41,8 +41,8 @@ class TestLocalComponents(BaseTestCase):
         
 
     def test_add_error(self):
-        from djed.static import Error
+        from pyramid.exceptions import ConfigurationError
 
         self.config.add_bower_component('myapp', 'tests:local_component')
         
-        self.assertRaises(Error, self.config.make_wsgi_app)
+        self.assertRaises(ConfigurationError, self.config.make_wsgi_app)

@@ -57,10 +57,10 @@ class TestIncluder(BaseTestCase):
         self.assertEqual(response.body, b'/* anycomponent.js */\n')
 
     def test_components_not_exist_errors(self):
-        from djed.static import Error
+        from pyramid.exceptions import ConfigurationError
 
-        self.assertRaises(Error, self.request.include, 'anycomponent')
-        self.assertRaises(Error, self.request.include, 'not-exist-component')
+        self.assertRaises(ConfigurationError, self.request.include, 'anycomponent')
+        self.assertRaises(ConfigurationError, self.request.include, 'not-exist-component')
 
     def test_local_component(self):
 

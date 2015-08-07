@@ -5,7 +5,6 @@ from collections import namedtuple
 from zope.interface import Interface
 from bowerstatic import (
     Bower,
-    Error,
     InjectorTween,
     PublisherTween,
 )
@@ -132,7 +131,7 @@ def include(request, path_or_resource):
     components = bower._component_collections.get(name)
 
     if components is None:
-        raise Error("Bower components '{0}' not found.".format(name))
+        raise ConfigurationError("Bower components '{0}' not found.".format(name))
 
     include = components.includer(request.environ)
     include(path_or_resource)
@@ -154,7 +153,7 @@ def init_static(event):
             container = bower._component_collections.get(package.container)
 
             if container is None:
-                raise Error("Bower components '{0}' not found."
+                raise ConfigurationError("Bower components '{0}' not found."
                             .format(package.container))
 
             component = container.load_component(
