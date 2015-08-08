@@ -25,7 +25,7 @@ class TestSettingsDefault(BaseTestCase):
 
         self.config.add_bower_components('tests:static/dir1')
 
-        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
+        self.config.add_bower_component('tests:static/local/myapp')
 
         app = self.make_app()
         response = app.get('/')
@@ -65,8 +65,7 @@ class TestSettingsCustom(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
 
-        self.config.add_bower_component(
-            'myapp', 'tests:static/local/myapp')
+        self.config.add_bower_component('tests:static/local/myapp')
 
         app = self.make_app()
         response = app.get('/')
