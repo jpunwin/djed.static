@@ -7,7 +7,7 @@ class TestComponents(BaseTestCase):
 
     def test_add(self):
 
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
         self.config.make_wsgi_app()
 
         bower = self.request.get_bower()
@@ -16,32 +16,32 @@ class TestComponents(BaseTestCase):
         self.assertEqual(len(bower._component_collections), 1)
 
         components = bower._component_collections.get('components')
-        self.assertTrue(components.path.endswith('/tests/bower_components'))
+        self.assertTrue(components.path.endswith('/static/dir1'))
 
     def test_add_override(self):
 
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
         self.config.commit()
-        self.config.add_bower_components('tests:components')
+        self.config.add_bower_components('tests:static/dir2')
         self.config.make_wsgi_app()
 
         bower = self.request.get_bower()
         components = bower._component_collections.get('components')
 
-        self.assertTrue(components.path.endswith('/tests/components'))
+        self.assertTrue(components.path.endswith('/static/dir2'))
 
     def test_add_non_existent_dir(self):
         from pyramid.exceptions import ConfigurationError
 
         self.assertRaises(ConfigurationError, self.config.add_bower_components,
-                          'tests:not_exists')
+                          'tests:static/not_exists')
 
     def test_add_conflict_error(self):
         from pyramid.exceptions import ConfigurationConflictError
 
         self.config.autocommit = False
 
-        self.config.add_bower_components('tests:bower_components')
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.add_bower_components('tests:static/dir1')
 
         self.assertRaises(ConfigurationConflictError, self.config.commit)

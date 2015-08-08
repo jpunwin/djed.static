@@ -7,8 +7,8 @@ class TestLocalComponents(BaseTestCase):
 
     def test_add(self):
 
-        self.config.add_bower_components('tests:bower_components')
-        self.config.add_bower_component('myapp', 'tests:local_component')
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
         self.config.make_wsgi_app()
 
         bower = self.request.get_bower()
@@ -21,16 +21,16 @@ class TestLocalComponents(BaseTestCase):
         from pyramid.exceptions import ConfigurationError
 
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
-                          'myapp', 'tests:not_exists')
+                          'myapp', 'tests:static/local/not_exists')
 
         self.assertRaises(ConfigurationError, self.config.add_bower_component,
-                          'myapp', 'tests:empty_dir')
+                          'myapp', 'tests:static/local/empty')
 
     def test_add_local_component_before_container(self):
-        self.config.add_bower_component('myapp', 'tests:local_component')
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
         self.config.commit()
 
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
         self.config.make_wsgi_app()
 
         bower = self.request.get_bower()
@@ -43,6 +43,6 @@ class TestLocalComponents(BaseTestCase):
     def test_add_error(self):
         from pyramid.exceptions import ConfigurationError
 
-        self.config.add_bower_component('myapp', 'tests:local_component')
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
         
         self.assertRaises(ConfigurationError, self.config.make_wsgi_app)

@@ -9,12 +9,12 @@ class TestIncluder(BaseTestCase):
     def test_components(self):
 
         def view(request):
-            request.include('anycomponent')
+            request.include('jquery')
             return Response('<html><head></head><body></body></html>')
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
 
         app = self.make_app()
         response = app.get('/')
@@ -22,14 +22,12 @@ class TestIncluder(BaseTestCase):
         self.assertEqual(response.body, (
             b'<html><head>'
             b'<script type="text/javascript" '
-            b'src="/bowerstatic/components/'
-            b'anycomponent/1.0.0/anycomponent.js">'
+            b'src="/bowerstatic/components/jquery/1.0.0/jquery.js">'
             b'</script></head><body></body></html>'))
 
-        response = app.get('/bowerstatic/components/'
-                           'anycomponent/1.0.0/anycomponent.js')
+        response = app.get('/bowerstatic/components/jquery/1.0.0/jquery.js')
 
-        self.assertEqual(response.body, b'/* anycomponent.js */\n')
+        self.assertEqual(response.body, b'/* dir1/jquery.js */\n')
 
     def test_components_in_template(self):
 
@@ -40,27 +38,25 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(
             view, route_name='view', renderer='tests:templates/index.pt')
-        self.config.add_bower_components('tests:bower_components')
+        self.config.add_bower_components('tests:static/dir1')
 
         app = self.make_app()
         response = app.get('/')
 
         self.assertIn(
             b'<script type="text/javascript" '
-            b'src="/bowerstatic/components/'
-            b'anycomponent/1.0.0/anycomponent.js">'
+            b'src="/bowerstatic/components/jquery/1.0.0/jquery.js">'
             b'</script>', response.body)
 
-        response = app.get('/bowerstatic/components/'
-                           'anycomponent/1.0.0/anycomponent.js')
+        response = app.get('/bowerstatic/components/jquery/1.0.0/jquery.js')
 
-        self.assertEqual(response.body, b'/* anycomponent.js */\n')
+        self.assertEqual(response.body, b'/* dir1/jquery.js */\n')
 
     def test_components_not_exist_errors(self):
         from pyramid.exceptions import ConfigurationError
 
-        self.assertRaises(ConfigurationError, self.request.include, 'anycomponent')
-        self.assertRaises(ConfigurationError, self.request.include, 'not-exist-component')
+        self.assertRaises(ConfigurationError, self.request.include, 'jquery')
+        self.assertRaises(ConfigurationError, self.request.include, 'not-exist')
 
     def test_local_component(self):
 
@@ -70,9 +66,8 @@ class TestIncluder(BaseTestCase):
 
         self.config.add_route('view', '/')
         self.config.add_view(view, route_name='view')
-        self.config.add_bower_components('tests:bower_components')
-        self.config.add_bower_component(
-            'myapp', 'tests:local_component')
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
 
         app = self.make_app()
         response = app.get('/')
@@ -80,7 +75,7 @@ class TestIncluder(BaseTestCase):
         self.assertEqual(response.body, (
             b'<html><head>'
             b'<script type="text/javascript" src='
-            b'"/bowerstatic/components/anycomponent/1.0.0/anycomponent.js">'
+            b'"/bowerstatic/components/jquery/1.0.0/jquery.js">'
             b'</script>\n<script type="text/javascript" '
             b'src="/bowerstatic/components/myapp/1.0.0/myapp.js"></script>'
             b'</head><body></body></html>'))
@@ -98,24 +93,22 @@ class TestIncluder(BaseTestCase):
         self.config.add_route('view', '/')
         self.config.add_view(
             view, route_name='view', renderer='tests:templates/index_local.pt')
-        self.config.add_bower_components('tests:bower_components')
-        self.config.add_bower_component(
-            'myapp', 'tests:local_component')
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
 
         app = self.make_app()
         response = app.get('/')
 
         self.assertIn((
             b'<script type="text/javascript" src='
-            b'"/bowerstatic/components/anycomponent/1.0.0/anycomponent.js">'
+            b'"/bowerstatic/components/jquery/1.0.0/jquery.js">'
             b'</script>\n<script type="text/javascript" '
             b'src="/bowerstatic/components/myapp/1.0.0/myapp.js"></script>'),
             response.body)
 
-        response = app.get('/bowerstatic/components/'
-                           'anycomponent/1.0.0/anycomponent.js')
+        response = app.get('/bowerstatic/components/jquery/1.0.0/jquery.js')
 
-        self.assertEqual(response.body, b'/* anycomponent.js */\n')
+        self.assertEqual(response.body, b'/* dir1/jquery.js */\n')
 
         response = app.get('/bowerstatic/components/myapp/1.0.0/myapp.js')
 

@@ -1,6 +1,6 @@
 <html>
   <head>
-    ${request.include('anycomponent')}
+    ${request.include('jquery')}
   </head>
   <body>
   </body>
