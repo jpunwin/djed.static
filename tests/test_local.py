@@ -38,7 +38,22 @@ class TestLocalComponents(BaseTestCase):
         collection = bower._component_collections['components']
 
         self.assertIn('myapp', collection._components)
-        
+
+    def test_add_local_component_before_container_override(self):
+        self.config.add_bower_component('myapp', 'tests:static/local/myapp')
+        self.config.commit()
+
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.commit()
+        self.config.add_bower_components('tests:static/dir2')
+        self.config.make_wsgi_app()
+
+        bower = self.request.get_bower()
+
+        collection = bower._component_collections['components']
+
+        self.assertTrue(collection.path.endswith('/static/dir2'))
+        self.assertIn('myapp', collection._components)
 
     def test_add_error(self):
         from pyramid.exceptions import ConfigurationError
