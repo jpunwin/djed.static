@@ -4,12 +4,17 @@ Changes
 0.5 (unreleased)
 ----------------
 
-- Local components require a ``name`` argument
+- It's now possible to create local components before a ``bower_components``
+  directory has been defined.
 
-- Removed support for multiple ``bower_components`` directories
+- The ``version`` argument for local components was removed. Instead, the
+  version information from the ``bower.json`` file is used.
 
-- Added checks if components directory exists and if local component
-  contains ``bower.json`` file
+- Multiple ``bower_components`` directories are no longer supported. This
+  feature maight be added again sometime.
+
+- Added checks if components directory exists and if local components
+  contain a ``bower.json`` file
 
 
 0.4 (2015-05-24)
