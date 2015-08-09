@@ -4,4 +4,9 @@ API Documentation
 =================
 
 .. automodule:: djed.static
-   :members:
+
+   .. autofunction:: add_bower_component
+
+   .. autofunction:: add_bower_components
+
+   .. autofunction:: include

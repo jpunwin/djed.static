@@ -29,12 +29,21 @@ Or use the following statement to add the ``bower_components`` directory:
 
     config.add_bower_components('myapp:static/bower_components')
 
-Include static resources on your HTML page. You can do this in templates or
+Now, you can use all installed bower packages. To include the desired
+components, call the following function in a HTML template or
 somewhere else in your code:
 
 .. code-block:: python
 
-    request.include('jquery')
+    request.include('bootstrap')
 
-All additional required resources are automatically resolved and are also
-included on your HTML page.
+This adds the following tags to the end of the HTML ``<head>`` section:
+
+.. code-block:: html
+
+  <script type="text/javascript" src="/bowerstatic/components/jquery/2.1.4/dist/jquery.js"></script>
+  <script type="text/javascript" src="/bowerstatic/components/bootstrap/3.3.5/dist/js/bootstrap.js"></script>
+  <link rel="stylesheet" type="text/css" href="/bowerstatic/components/bootstrap/3.3.5/dist/css/bootstrap.css">
+    
+As you can see, all required dependencies are automatically resolved and also
+included in your HTML document.
