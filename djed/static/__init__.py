@@ -16,8 +16,8 @@ from pyramid.exceptions import ConfigurationError
 log = logging.getLogger('djed.static')
 
 
-StaticPackageContainer = namedtuple('StaticPackageContainer', 'name path')
-StaticPackage = namedtuple('StaticPackage', 'path container')
+BowerComponentsInfo = namedtuple('BowerComponentsInfo', 'name path')
+BowerComponentInfo = namedtuple('BowerComponentInfo', 'path components')
 
 
 class IBower(Interface):
@@ -70,7 +70,7 @@ def bowerstatic_tween_factory(handler, registry):
     return bowerstatic_tween
 
 
-def add_bower_components(config, path):
+def add_bower_components(config, path, name=None):
     """
     """
     registry = config.registry
@@ -84,18 +84,19 @@ def add_bower_components(config, path):
 
     bower = get_bower(registry)
 
-    name = bower.components_name
+    if name is None:
+        name = bower.components_name
 
     discr = ('djed:static', name)
 
     def register():
-        container = StaticPackageContainer(name, directory)
-        registry.registerUtility(container, IBowerComponents, name=name)
+        info = BowerComponentsInfo(name, directory)
+        registry.registerUtility(info, IBowerComponents, name=name)
 
     config.action(discr, register)
 
 
-def add_bower_component(config, path):
+def add_bower_component(config, path, components=None):
     """
     """
     registry = config.registry
@@ -109,31 +110,35 @@ def add_bower_component(config, path):
         )
 
     bower = get_bower(registry)
-    container = bower.components_name
 
-    discr = ('djed:static', directory, container)
+    if components is None:
+       components = bower.components_name
+
+    discr = ('djed:static', directory, components)
 
     def register():
-        package = StaticPackage(directory, container)
-        registry.registerUtility(package, IBowerComponent, name='-'.join(discr))
+        info = BowerComponentInfo(directory, components)
+        registry.registerUtility(info, IBowerComponent, name='-'.join(discr))
 
     config.action(discr, register)
 
 
-def include(request, path_or_resource):
+def include(request, path_or_resource, components=None):
     """
     """
     registry = request.registry
     bower = get_bower(registry)
 
-    name = bower.components_name
-
-    components = bower._component_collections.get(name)
-
     if components is None:
-        raise ConfigurationError("Bower components '{0}' not found.".format(name))
+        components = bower.components_name
 
-    include = components.includer(request.environ)
+    collection = bower._component_collections.get(components)
+
+    if collection is None:
+        raise ConfigurationError("Bower components '{0}' not found."
+                                 .format(components))
+
+    include = collection.includer(request.environ)
     include(path_or_resource)
 
 
@@ -144,24 +149,25 @@ def init_static(event):
     if not bower.initialized:
         log.info("Initialize static resources...")
 
-        for _, container in registry.getUtilitiesFor(IBowerComponents):
-            bower.components(container.name, container.path)
+        for name, info in registry.getUtilitiesFor(IBowerComponents):
+            bower.components(info.name, info.path)
 
-            log.info("Add static resource collection '{0}': {1}".format(*container))
+            log.info("Add static bower components '{0}': {1}"
+                     .format(info.name, info.path))
 
-        for _, package in registry.getUtilitiesFor(IBowerComponent):
-            container = bower._component_collections.get(package.container)
+        for name, info in registry.getUtilitiesFor(IBowerComponent):
+            collection = bower._component_collections.get(info.components)
 
-            if container is None:
+            if collection is None:
                 raise ConfigurationError("Bower components '{0}' not found."
-                            .format(package.container))
+                            .format(info.components))
 
-            component = container.load_component(
-                package.path, 'bower.json')
+            component = collection.load_component(
+                info.path, 'bower.json')
 
-            container.add(component)
+            collection.add(component)
 
-            log.info("Add local static package: {0}".format(package.path))
+            log.info("Add local bower component: {0}".format(info.path))
 
         bower.initialized = True
 

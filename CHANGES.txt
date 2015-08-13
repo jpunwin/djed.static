@@ -10,8 +10,8 @@ Changes
 - The ``version`` argument for local components was removed. Instead, the
   version information from the ``bower.json`` file is used.
 
-- Multiple ``bower_components`` directories are no longer supported. This
-  feature maight be added again sometime.
+- Changed keyword argument identifier of ``add_bower_component`` and
+  ``include`` functions from ``name`` into ``components``.
 
 - Added checks if components directory exists and if local components
   contain a ``bower.json`` file

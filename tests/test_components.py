@@ -45,3 +45,35 @@ class TestComponents(BaseTestCase):
         self.config.add_bower_components('tests:static/dir1')
 
         self.assertRaises(ConfigurationConflictError, self.config.commit)
+
+    def test_add_custom(self):
+
+        self.config.add_bower_components(
+            'tests:static/dir1', name='custom')
+        self.config.make_wsgi_app()
+
+        bower = self.request.get_bower()
+
+        self.assertIn('custom', bower._component_collections)
+        self.assertEqual(len(bower._component_collections), 1)
+
+    def test_add_custom_conflict_error(self):
+        from pyramid.exceptions import ConfigurationConflictError
+
+        self.config.autocommit = False
+
+        self.config.add_bower_components('tests:static/dir1', name='custom')
+        self.config.add_bower_components('tests:static/dir1', name='custom')
+
+        self.assertRaises(ConfigurationConflictError, self.config.commit)
+
+    def test_add_multiple(self):
+
+        self.config.add_bower_components('tests:static/dir1')
+        self.config.add_bower_components('tests:static/dir2', name='custom')
+        self.config.make_wsgi_app()
+
+        bower = self.request.get_bower()
+
+        self.assertIn('components', bower._component_collections)
+        self.assertIn('custom', bower._component_collections)

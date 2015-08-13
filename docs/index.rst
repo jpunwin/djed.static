@@ -28,6 +28,7 @@ Contents
 
    getting-started
    local-components
+   multiple-components
    configuration
    api
    support
