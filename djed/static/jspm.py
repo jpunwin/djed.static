@@ -34,18 +34,17 @@ def jspm_tween_factory(handler, registry):
 
         text = response.text
         pos = text.find('</head>')
-        inclusions = []
-        mods = request.jspm_imports
-
-        static_url = request.static_url(app.asset_spec)
-
-        inclusions.append('<script src="{0}{1}"></script>'.format(static_url, 'jspm_packages/system.js'))
-        inclusions.append('<script src="{0}{1}"></script>'.format(static_url, 'config.js'))
-
-        inclusions.append('<script>System.config({{"baseURL": "{0}"}})</script>'.format(static_url))
-        inclusions.append('<script>{0}</script>'.format(''.join('System.import("{}");'.format(mod) for mod in mods)))
-
         if pos > -1:
+            inclusions = []
+            mods = request.jspm_imports
+
+            static_url = request.static_url(app.asset_spec)
+
+            inclusions.append('<script src="{0}{1}"></script>'.format(static_url, 'jspm_packages/system.js'))
+            inclusions.append('<script>System.config({{"baseURL": "{0}"}})</script>'.format(static_url))
+            inclusions.append('<script src="{0}{1}"></script>'.format(static_url, 'config.js'))
+            inclusions.append('<script>{0}</script>'.format(''.join('System.import("{}");'.format(mod) for mod in mods)))
+
             response.text = '{0}{1}\n{2}'.format(
                 text[:pos], '\n'.join(inclusions), text[pos:])
 
@@ -59,7 +58,7 @@ def jspm_imports(request):
 
 
 def add_static_application(config, name, asset_spec):
-    log.info("Add static application")
+    log.info("Add static application '{0}': {1}".format(name, asset_spec))
 
     #TODO: check if asset_spec endswith '/'
 
