@@ -5,16 +5,11 @@ djed.static
 .. image:: https://travis-ci.org/djedproject/djed.static.png?branch=master
    :target: https://travis-ci.org/djedproject/djed.static
 
-djed.static integrates BowerStatic_ into the `Pyramid Web Framework`_.
+``djed.static`` integrates `BowerStatic <https://bowerstatic.readthedocs.org>`_
+into the `Pyramid Web Framework <https://pyramid.readthedocs.org>`_.
 BowerStatic is a WSGI component that can serve static resources from
-front-end packages (JavaScript, CSS) that you install through the Bower_
-package manager.
-
-.. _Bower: http://bower.io
-
-.. _BowerStatic: https://bowerstatic.readthedocs.org
-
-.. _Pyramid Web Framework: https://pyramid.readthedocs.org
+front-end packages (JavaScript, CSS) that you install through the
+`Bower <http://bower.io>`_ package manager.
 
 Dependencies
 ============
@@ -35,6 +30,6 @@ To report bugs, use the `issue tracker <https://github.com/djedproject/djed.stat
 License
 =======
 
-djed.static is offered under the `ISC license`_.
+``djed.static`` is offered under the `ISC license`_.
 
 .. _ISC license: http://choosealicense.com/licenses/isc/
