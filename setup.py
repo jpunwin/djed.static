@@ -10,7 +10,7 @@ def read(f):
 
 setup(
     name='djed.static',
-    version='0.5.dev0',
+    version='0.5',
     description='Integration of BowerStatic into Pyramid for managing '
                 'static resources with Bower',
     long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),

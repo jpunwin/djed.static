@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.5 (unreleased)
+0.5 (2015-10-06)
 ----------------
 
 - Support Python 3.5
