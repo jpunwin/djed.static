@@ -4,17 +4,20 @@ Changes
 0.5 (unreleased)
 ----------------
 
+- Support Python 3.5
+
 - It's now possible to create local components before a ``bower_components``
   directory has been defined.
 
-- The ``version`` argument for local components was removed. Instead, the
-  version information from the ``bower.json`` file is used.
+- Backward incompatible change: Remove ``version`` argument of
+  ``config.add_bower_component`` (version information from the
+  ``bower.json`` file is used instead).
 
-- Changed keyword argument identifier of ``add_bower_component`` and
-  ``include`` functions from ``name`` into ``components``.
+- Backward incompatible change: Rename keyword argument identifier ``name`` of
+  ``config.add_bower_components`` and ``request.include`` to ``components``.
 
-- Added checks if components directory exists and if local components
-  contain a ``bower.json`` file
+- Add checks if components directory exists and if local components contain a
+  ``bower.json`` file.
 
 
 0.4 (2015-05-24)
