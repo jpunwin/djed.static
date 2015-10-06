@@ -15,22 +15,22 @@ names:
 
     config.add_bower_components('myapp:static/components_dir', name='dir')
 
-You can use components from this directories as follows:
+You can use components from this directory as follows:
 
 .. code-block:: python
 
-    request.include('bootstrap', components='dir')
+    request.include('bootstrap', components_name='dir')
 
 To use this ``bower_components`` directory for local components:
 
 .. code-block:: python
 
-    config.add_bower_component('myapp:static/my_component', components='dir')
+    config.add_bower_component('myapp:static/my_component', components_name='dir')
 
 After that, you can include your local components on the HTML page:
 
 .. code-block:: python
 
-    request.include('my_component', components='dir')
+    request.include('my_component', components_name='dir')
 
 

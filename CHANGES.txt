@@ -14,7 +14,8 @@ Changes
   ``bower.json`` file is used instead).
 
 - Backward incompatible change: Rename keyword argument identifier ``name`` of
-  ``config.add_bower_components`` and ``request.include`` to ``components``.
+  ``config.add_bower_components`` and ``request.include`` to
+  ``components_name``.
 
 - Add checks if components directory exists and if local components contain a
   ``bower.json`` file.

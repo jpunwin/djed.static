@@ -17,7 +17,7 @@ log = logging.getLogger('djed.static')
 
 
 BowerComponentsInfo = namedtuple('BowerComponentsInfo', 'name path')
-BowerComponentInfo = namedtuple('BowerComponentInfo', 'path components')
+BowerComponentInfo = namedtuple('BowerComponentInfo', 'path components_name')
 
 
 class IBower(Interface):
@@ -96,7 +96,7 @@ def add_bower_components(config, path, name=None):
     config.action(discr, register)
 
 
-def add_bower_component(config, path, components=None):
+def add_bower_component(config, path, components_name=None):
     """
     """
     registry = config.registry
@@ -111,32 +111,32 @@ def add_bower_component(config, path, components=None):
 
     bower = get_bower(registry)
 
-    if components is None:
-       components = bower.components_name
+    if components_name is None:
+       components_name = bower.components_name
 
-    discr = ('djed:static', directory, components)
+    discr = ('djed:static', directory, components_name)
 
     def register():
-        info = BowerComponentInfo(directory, components)
+        info = BowerComponentInfo(directory, components_name)
         registry.registerUtility(info, IBowerComponent, name='-'.join(discr))
 
     config.action(discr, register)
 
 
-def include(request, path_or_resource, components=None):
+def include(request, path_or_resource, components_name=None):
     """
     """
     registry = request.registry
     bower = get_bower(registry)
 
-    if components is None:
-        components = bower.components_name
+    if components_name is None:
+        components_name = bower.components_name
 
-    collection = bower._component_collections.get(components)
+    collection = bower._component_collections.get(components_name)
 
     if collection is None:
         raise ConfigurationError("Bower components '{0}' not found."
-                                 .format(components))
+                                 .format(components_name))
 
     include = collection.includer(request.environ)
     include(path_or_resource)
@@ -156,11 +156,11 @@ def init_static(event):
                      .format(info.name, info.path))
 
         for name, info in registry.getUtilitiesFor(IBowerComponent):
-            collection = bower._component_collections.get(info.components)
+            collection = bower._component_collections.get(info.components_name)
 
             if collection is None:
                 raise ConfigurationError("Bower components '{0}' not found."
-                            .format(info.components))
+                            .format(info.components_name))
 
             component = collection.load_component(
                 info.path, 'bower.json')
