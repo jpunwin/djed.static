@@ -34,6 +34,7 @@ setup(
     install_requires=[
         'bowerstatic',
         'pyramid',
+        'setuptools',
         'zope.interface',
     ],
     extras_require={
