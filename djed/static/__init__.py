@@ -112,7 +112,7 @@ def add_bower_component(config, path, components_name=None):
     bower = get_bower(registry)
 
     if components_name is None:
-       components_name = bower.components_name
+        components_name = bower.components_name
 
     discr = ('djed:static', directory, components_name)
 
@@ -159,8 +159,9 @@ def init_static(event):
             collection = bower._component_collections.get(info.components_name)
 
             if collection is None:
-                raise ConfigurationError("Bower components '{0}' not found."
-                            .format(info.components_name))
+                raise ConfigurationError(
+                    "Bower components '{0}' not found.".format(
+                        info.components_name))
 
             component = collection.load_component(
                 info.path, 'bower.json')

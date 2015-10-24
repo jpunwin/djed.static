@@ -73,7 +73,7 @@ class TestLocalComponents(BaseTestCase):
         from pyramid.exceptions import ConfigurationError
 
         self.config.add_bower_component('tests:static/local/myapp')
-        
+
         self.assertRaises(ConfigurationError, self.config.make_wsgi_app)
 
     def test_add_custom(self):

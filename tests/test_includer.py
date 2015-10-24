@@ -56,7 +56,8 @@ class TestIncluder(BaseTestCase):
         from pyramid.exceptions import ConfigurationError
 
         self.assertRaises(ConfigurationError, self.request.include, 'jquery')
-        self.assertRaises(ConfigurationError, self.request.include, 'not-exist')
+        self.assertRaises(ConfigurationError, self.request.include,
+                          'not-exist')
 
     def test_local_component(self):
 
